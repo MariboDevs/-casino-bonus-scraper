@@ -1,0 +1,123 @@
+:host {
+  display: block;
+}
+
+.offers {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 0.9375rem;
+}
+
+th,
+td {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+
+thead th {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.casino {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.bonus {
+  font-weight: 500;
+}
+
+.numeric {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Phones: one card per casino, each value labelled, no horizontal scroll. */
+@media (max-width: 40rem) {
+  .offers {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  tr {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  th,
+  td {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 0.75rem;
+    padding: 0.625rem 1rem;
+  }
+
+  .casino {
+    display: block;
+    font-size: 1.0625rem;
+    background: var(--surface-muted);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  /* Every card separates its rows; only each card's final row drops the rule. */
+  .offers tbody tr > * {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .offers tbody tr > :last-child {
+    border-bottom: 0;
+  }
+
+  td::before {
+    content: attr(data-label);
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .numeric {
+    white-space: normal;
+  }
+}

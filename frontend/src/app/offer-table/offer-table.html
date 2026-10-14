@@ -1,0 +1,33 @@
+<table class="offers">
+  <caption class="sr-only">
+    Welcome bonus, wagering requirement and minimum deposit for each casino
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Casino</th>
+      <th scope="col">Welcome bonus</th>
+      <th scope="col">Wagering</th>
+      <th scope="col">Min. deposit</th>
+      <th scope="col">Source</th>
+      <th scope="col">Check</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (offer of offers(); track offer.casino) {
+      <tr>
+        <th scope="row" class="casino">{{ offer.casino }}</th>
+        <td data-label="Welcome bonus" class="bonus">{{ offer.welcomeBonus }}</td>
+        <td data-label="Wagering" class="numeric">{{ wagering(offer) }}</td>
+        <td data-label="Min. deposit" class="numeric">
+          {{ offer.minimumDeposit ?? 'Not stated' }}
+        </td>
+        <td data-label="Source">
+          <a [href]="offer.sourceUrl" target="_blank" rel="noopener noreferrer nofollow">
+            {{ host(offer.sourceUrl) }}
+          </a>
+        </td>
+        <td data-label="Check"><app-verification-badge [verification]="offer.verification" /></td>
+      </tr>
+    }
+  </tbody>
+</table>

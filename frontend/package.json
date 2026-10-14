@@ -1,0 +1,33 @@
+{
+  "name": "bonus-board",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "copy-data": "node scripts/copy-data.mjs",
+    "prestart": "npm run copy-data",
+    "start": "ng serve",
+    "prebuild": "npm run copy-data",
+    "build": "ng build",
+    "format": "prettier --write \"src/**/*.{ts,html,scss,json}\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\" \"scripts/**/*.mjs\""
+  },
+  "dependencies": {
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.26",
+    "@angular/cli": "^21.2.26",
+    "@angular/compiler-cli": "^21.2.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "postcss": "^8.5.0",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.1.0",
+    "typescript": "~5.9.2"
+  }
+}

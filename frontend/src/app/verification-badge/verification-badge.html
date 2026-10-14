@@ -1,0 +1,14 @@
+@if (confirmed()) {
+  <span class="badge badge--confirmed" title="Every figure was found in the source text"
+    >Checked</span
+  >
+} @else {
+  <details class="provisional">
+    <summary class="badge badge--provisional">Needs review</summary>
+    <ul class="notes">
+      @for (note of verification().notes; track note) {
+        <li>{{ note }}</li>
+      }
+    </ul>
+  </details>
+}

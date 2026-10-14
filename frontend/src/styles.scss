@@ -1,0 +1,73 @@
+@use 'tailwindcss';
+
+/*
+ * Semantic tokens. Components only ever consume these, so a re-brand or a new
+ * colour scheme is a change here and nowhere else.
+ */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-muted: #f0f2f5;
+  --text: #14171f;
+  --text-muted: #5b6474;
+  --border: #dde1e8;
+  --accent: #1d4ed8;
+  --confirmed-bg: #e7f6ec;
+  --confirmed-fg: #17633a;
+  --provisional-bg: #fff4dc;
+  --provisional-fg: #8a5a00;
+  --danger-bg: #fde8e8;
+  --danger-fg: #9b1c1c;
+  --radius: 0.75rem;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1116;
+    --surface: #161b22;
+    --surface-muted: #1f2630;
+    --text: #e8ebf0;
+    --text-muted: #9aa4b2;
+    --border: #2b3340;
+    --accent: #7aa7ff;
+    --confirmed-bg: #12301f;
+    --confirmed-fg: #7fd8a1;
+    --provisional-bg: #3a2c0b;
+    --provisional-fg: #f3c766;
+    --danger-bg: #3b1515;
+    --danger-fg: #f3a3a3;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-ink: var(--text);
+  --color-ink-muted: var(--text-muted);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-confirmed-bg: var(--confirmed-bg);
+  --color-confirmed-fg: var(--confirmed-fg);
+  --color-provisional-bg: var(--provisional-bg);
+  --color-provisional-fg: var(--provisional-fg);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-fg: var(--danger-fg);
+  --radius-card: var(--radius);
+  --font-sans: var(--font-sans);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}

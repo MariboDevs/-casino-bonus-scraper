@@ -1,0 +1,144 @@
+name: Scrape and publish
+
+# Daily at 05:17 UTC (off the hour, to stay clear of the scheduler's busiest minute),
+# on demand, and whenever the page or the published data changes.
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main, claude/zen-knuth-qxhjew]
+    paths: ['data/**', 'frontend/**', '.github/workflows/scrape-and-publish.yml']
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: scrape-and-publish
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  scrape:
+    name: Scrape
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      exit-code: ${{ steps.scrape.outputs.exit-code }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Check the model is configured
+        env:
+          ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+          API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+        run: |
+          if [ -z "$ENDPOINT" ] || [ -z "$DEPLOYMENT" ] || [ -z "$API_KEY" ]; then
+            echo "::error::Add AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT and AZURE_OPENAI_API_KEY as repository secrets."
+            exit 2
+          fi
+
+      - name: Scrape
+        id: scrape
+        env:
+          Extraction__Provider: AzureOpenAI
+          Extraction__AzureOpenAI__Endpoint: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          Extraction__AzureOpenAI__Deployment: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+          Extraction__AzureOpenAI__ApiKey: ${{ secrets.AZURE_OPENAI_API_KEY }}
+        # 0 = every casino scraped, 3 = some failed but data was published; anything else fails the run.
+        run: |
+          set +e
+          dotnet run --project src/BonusScraper.Cli -c Release -- scrape --record-to recordings
+          code=$?
+          echo "exit-code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" -eq 3 ]; then echo "::warning::Some casinos failed; the rest were published."; fi
+          if [ "$code" -ne 0 ] && [ "$code" -ne 3 ]; then exit "$code"; fi
+
+      - name: Commit the data and the recorded model answers
+        run: |
+          git config user.name "bonus-scraper[bot]"
+          git config user.email "bonus-scraper[bot]@users.noreply.github.com"
+          git add data/casinos.json recordings
+          if git diff --cached --quiet; then
+            echo "No change in the offers."
+          else
+            git commit -m "Update casino offers ($(date -u +%Y-%m-%d))"
+            git push
+          fi
+
+  build:
+    name: Build page
+    needs: scrape
+    if: always() && (needs.scrape.result == 'success' || needs.scrape.result == 'skipped')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Pick up the commit the scrape just pushed
+        run: git pull --ff-only origin "${GITHUB_REF_NAME}"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build -- --base-href ./
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist/bonus-board
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  # The failure signal: a failed scheduled run opens (or comments on) one tracking issue,
+  # which notifies watchers by email. GitHub also emails the workflow's owner directly.
+  alert:
+    name: Raise an alert
+    needs: [scrape, build, deploy]
+    if: failure() || needs.scrape.outputs.exit-code == '3'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'Daily scrape needs attention';
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const code = '${{ needs.scrape.outputs.exit-code }}';
+            const body = code === '3'
+              ? `Some casinos failed on [this run](${run}); the others were published.`
+              : `[This run](${run}) failed. The page still shows the last good data.`;
+            const { data: open } = await github.rest.issues.listForRepo({ ...context.repo, state: 'open', labels: 'scrape-alert' });
+            if (open.length > 0) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: open[0].number, body });
+            } else {
+              await github.rest.issues.create({ ...context.repo, title, body, labels: ['scrape-alert'] });
+            }

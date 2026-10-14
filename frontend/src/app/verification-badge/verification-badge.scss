@@ -1,0 +1,46 @@
+:host {
+  display: inline-block;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge--confirmed {
+  background: var(--confirmed-bg);
+  color: var(--confirmed-fg);
+}
+
+.badge--provisional {
+  background: var(--provisional-bg);
+  color: var(--provisional-fg);
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    content: '▾';
+  }
+}
+
+.provisional[open] .badge--provisional::after {
+  content: '▴';
+}
+
+.notes {
+  margin: 0.5rem 0 0;
+  padding-left: 1rem;
+  max-width: 22rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}

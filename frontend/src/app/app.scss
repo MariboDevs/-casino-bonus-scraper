@@ -1,0 +1,78 @@
+:host {
+  display: block;
+}
+
+.page {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 3rem;
+}
+
+.intro h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  margin: 0 0 1.5rem;
+  max-width: 44rem;
+  color: var(--text-muted);
+}
+
+.meta {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .separator {
+    margin: 0 0.375rem;
+  }
+}
+
+.status {
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.status--error {
+  background: var(--danger-bg);
+  color: var(--danger-fg);
+  border-color: transparent;
+}
+
+.failures {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--provisional-bg);
+  color: var(--provisional-fg);
+  border-radius: var(--radius);
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.9375rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+}
+
+.footer {
+  margin-top: 2rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+
+  a {
+    color: var(--accent);
+  }
+}

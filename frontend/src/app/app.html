@@ -1,0 +1,56 @@
+<main class="page">
+  <header class="intro">
+    <h1>Casino welcome bonuses</h1>
+    <p class="lede">
+      Scraped daily from a public review site. A language model reads each casino's bonus terms into
+      structured fields, then a deterministic check re-reads the source text and flags any figure it
+      cannot confirm.
+    </p>
+  </header>
+
+  @if (store.loading()) {
+    <p class="status" role="status">Loading offers…</p>
+  } @else if (store.failed()) {
+    <p class="status status--error" role="alert">
+      The offers could not be loaded. Please try again later.
+    </p>
+  } @else if (store.offers(); as published) {
+    <p class="meta">
+      Source: <strong>{{ published.source }}</strong>
+      <span class="separator" aria-hidden="true">·</span>
+      Updated
+      <time [attr.datetime]="published.generatedAt">{{
+        published.generatedAt | date: 'd MMM y, HH:mm' : 'UTC'
+      }}</time>
+      UTC
+    </p>
+
+    @if (published.casinos.length > 0) {
+      <app-offer-table [offers]="published.casinos" />
+    } @else {
+      <p class="status">No offers were published on the last run.</p>
+    }
+
+    @if (published.failures.length > 0) {
+      <section class="failures" aria-labelledby="failures-heading">
+        <h2 id="failures-heading">Not updated on the last run</h2>
+        <ul>
+          @for (failure of published.failures; track failure.casino) {
+            <li>
+              <strong>{{ failure.casino }}</strong
+              >: <code>{{ failure.code }}</code>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  }
+
+  <footer class="footer">
+    <p>
+      18+ only. Offers change often and terms apply: always read the operator's full terms before
+      depositing.
+      <a href="https://www.begambleaware.org/" rel="noopener noreferrer">BeGambleAware.org</a>
+    </p>
+  </footer>
+</main>

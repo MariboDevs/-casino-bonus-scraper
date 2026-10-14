@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/BonusScraper.AppHost/BonusScraper.AppHost.csproj" />
     <Project Path="src/BonusScraper.Application/BonusScraper.Application.csproj" />
     <Project Path="src/BonusScraper.Cli/BonusScraper.Cli.csproj" />
     <Project Path="src/BonusScraper.Domain/BonusScraper.Domain.csproj" />
