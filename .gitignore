@@ -1,0 +1,13 @@
+bin/
+obj/
+*.user
+.vs/
+.idea/
+TestResults/
+node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/public/data/
+.env
+appsettings.*.local.json
+*.swp

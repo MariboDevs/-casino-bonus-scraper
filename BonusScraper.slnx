@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BonusScraper.Application/BonusScraper.Application.csproj" />
+    <Project Path="src/BonusScraper.Cli/BonusScraper.Cli.csproj" />
+    <Project Path="src/BonusScraper.Domain/BonusScraper.Domain.csproj" />
+    <Project Path="src/BonusScraper.Infrastructure/BonusScraper.Infrastructure.csproj" />
+    <Project Path="src/BonusScraper.Migrator/BonusScraper.Migrator.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BonusScraper.Application.UnitTests/BonusScraper.Application.UnitTests.csproj" />
+    <Project Path="tests/BonusScraper.Domain.UnitTests/BonusScraper.Domain.UnitTests.csproj" />
+    <Project Path="tests/BonusScraper.Infrastructure.UnitTests/BonusScraper.Infrastructure.UnitTests.csproj" />
+    <Project Path="tests/BonusScraper.IntegrationTests/BonusScraper.IntegrationTests.csproj" />
+  </Folder>
+</Solution>
