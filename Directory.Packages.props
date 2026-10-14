@@ -18,6 +18,8 @@
   <ItemGroup Label="Infrastructure">
     <PackageVersion Include="AngleSharp" Version="1.8.4" />
     <PackageVersion Include="Azure.AI.OpenAI" Version="2.1.0" />
+    <PackageVersion Include="Azure.Identity" Version="1.21.0" />
+    <PackageVersion Include="Azure.Storage.Blobs" Version="12.30.1" />
     <PackageVersion Include="Anthropic" Version="12.56.0" />
     <PackageVersion Include="Dapper" Version="2.1.89" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.1.1" />

@@ -1,6 +1,7 @@
 using System.ClientModel;
 using Azure;
 using Azure.AI.OpenAI;
+using Azure.Identity;
 using BonusScraper.Application.Abstractions;
 using ErrorOr;
 using Microsoft.Extensions.Options;
@@ -27,10 +28,13 @@ internal sealed class AzureOpenAiBonusTermsExtractor : IBonusTermsExtractor
         if (!azure.IsConfigured)
         {
             throw new InvalidOperationException(
-                "Extraction:AzureOpenAI needs Endpoint, Deployment and ApiKey. Set them with user secrets or environment variables, or choose another Extraction:Provider.");
+                "Extraction:AzureOpenAI needs an Endpoint and a Deployment. Set them with user secrets or environment variables, or choose another Extraction:Provider.");
         }
 
-        _chat = new AzureOpenAIClient(azure.Endpoint!, new AzureKeyCredential(azure.ApiKey!)).GetChatClient(azure.Deployment);
+        var client = azure.UsesKey
+            ? new AzureOpenAIClient(azure.Endpoint!, new AzureKeyCredential(azure.ApiKey!))
+            : new AzureOpenAIClient(azure.Endpoint!, new DefaultAzureCredential());
+        _chat = client.GetChatClient(azure.Deployment);
     }
 
     public async Task<ErrorOr<ExtractedBonusTerms>> ExtractAsync(BonusTermsDocument document, CancellationToken cancellationToken)

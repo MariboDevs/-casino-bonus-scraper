@@ -21,7 +21,7 @@ public sealed class JsonOfferPublisherTests : IDisposable
         result.Value.ShouldBe(_path);
         using var json = JsonDocument.Parse(await File.ReadAllTextAsync(_path));
         var root = json.RootElement;
-        root.GetProperty("schemaVersion").GetInt32().ShouldBe(JsonOfferPublisher.SchemaVersion);
+        root.GetProperty("schemaVersion").GetInt32().ShouldBe(PublishedOffersSerializer.SchemaVersion);
         root.GetProperty("source").GetString().ShouldBe("casinoguide.co.uk");
         root.GetProperty("outcome").GetString().ShouldBe("partiallySucceeded");
 

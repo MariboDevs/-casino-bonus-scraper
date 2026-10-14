@@ -22,7 +22,14 @@ public static class DependencyInjection
         AddCrawling(services);
         AddExtraction(services);
         AddPersistence(services, configuration);
-        services.AddSingleton<IOfferPublisher, JsonOfferPublisher>();
+        services.AddSingleton<IOfferPublisher>(provider =>
+        {
+            var options = provider.GetRequiredService<IOptions<PublishingOptions>>();
+            var file = new JsonOfferPublisher(options);
+            return options.Value.BlobContainerUrl is null
+                ? file
+                : new CompositeOfferPublisher([file, new BlobOfferPublisher(options)]);
+        });
 
         return services;
     }

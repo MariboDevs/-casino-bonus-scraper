@@ -9,7 +9,8 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- Not invariant: Microsoft.Data.SqlClient refuses to open connections in invariant globalization mode. -->
+    <InvariantGlobalization>false</InvariantGlobalization>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <Deterministic>true</Deterministic>
   </PropertyGroup>

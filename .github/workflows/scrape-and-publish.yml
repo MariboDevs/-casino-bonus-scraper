@@ -1,14 +1,11 @@
 name: Scrape and publish
 
-# Daily at 05:17 UTC (off the hour, to stay clear of the scheduler's busiest minute),
-# on demand, and whenever the page or the published data changes.
+# Daily at 05:17 UTC (off the hour, to stay clear of the scheduler's busiest minute)
+# and on demand. Every run scrapes, so the page is always built from fresh data.
 on:
   schedule:
     - cron: '17 5 * * *'
   workflow_dispatch:
-  push:
-    branches: [main, claude/zen-knuth-qxhjew]
-    paths: ['data/**', 'frontend/**', '.github/workflows/scrape-and-publish.yml']
 
 permissions:
   contents: write
@@ -27,15 +24,14 @@ env:
 jobs:
   scrape:
     name: Scrape
-    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
       exit-code: ${{ steps.scrape.outputs.exit-code }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           global-json-file: global.json
 
@@ -81,18 +77,17 @@ jobs:
   build:
     name: Build page
     needs: scrape
-    if: always() && (needs.scrape.result == 'success' || needs.scrape.result == 'skipped')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.ref }}
 
       - name: Pick up the commit the scrape just pushed
         run: git pull --ff-only origin "${GITHUB_REF_NAME}"
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm

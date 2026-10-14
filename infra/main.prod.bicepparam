@@ -1,0 +1,10 @@
+using 'main.bicep'
+
+param environmentName = 'prod'
+param scraperImage = 'acrbonusprod.azurecr.io/bonus-scraper:latest'
+param openAiAccountName = 'oai-shared'
+param openAiDeployment = 'gpt-5-5'
+param sqlAdminGroupName = 'sg-bonus-sql-admins'
+param sqlAdminGroupObjectId = '00000000-0000-0000-0000-000000000000'
+param alertEmail = 'alerts@example.com'
+param customDomain = 'bonuses.example.com'

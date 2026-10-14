@@ -6,8 +6,14 @@ public sealed class AzureOpenAiOptions
 
     public string? Deployment { get; init; }
 
-    /// <summary>Never committed: supplied through user secrets or the environment.</summary>
+    /// <summary>
+    /// Optional, and never committed. Without it the extractor authenticates with Entra ID
+    /// (a managed identity in Azure, the developer's login locally), which is the
+    /// production setting: no key exists to leak or rotate.
+    /// </summary>
     public string? ApiKey { get; init; }
 
-    public bool IsConfigured => Endpoint is not null && !string.IsNullOrWhiteSpace(Deployment) && !string.IsNullOrWhiteSpace(ApiKey);
+    public bool IsConfigured => Endpoint is not null && !string.IsNullOrWhiteSpace(Deployment);
+
+    public bool UsesKey => !string.IsNullOrWhiteSpace(ApiKey);
 }
