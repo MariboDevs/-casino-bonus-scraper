@@ -16,6 +16,8 @@
     <PackageReference Include="Shouldly" />
     <PackageReference Include="NSubstitute" />
     <PackageReference Include="Testcontainers.MsSql" />
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\BonusScraper.Infrastructure\BonusScraper.Infrastructure.csproj" />

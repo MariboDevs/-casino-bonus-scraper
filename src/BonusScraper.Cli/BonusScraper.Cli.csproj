@@ -24,6 +24,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="casinos.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
