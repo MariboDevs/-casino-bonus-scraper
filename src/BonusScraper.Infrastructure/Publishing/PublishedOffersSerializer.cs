@@ -47,7 +47,8 @@ internal static class PublishedOffersSerializer
             JsonNamingPolicy.CamelCase.ConvertName(offer.Verification.Basis.ToString()),
             offer.Verification.Notes.ToList()),
         offer.ExtractedBy,
-        offer.ExtractedAt);
+        offer.ExtractedAt,
+        offer.AnswerReused);
 
     private static PublishedMoney? ToMoney(Money? money) =>
         money is null ? null : new PublishedMoney(money.Amount, money.Currency.Code);

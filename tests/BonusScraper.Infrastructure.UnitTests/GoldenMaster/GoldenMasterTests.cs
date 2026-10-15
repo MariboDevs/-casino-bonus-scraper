@@ -94,6 +94,7 @@ public sealed class GoldenMasterTests : IDisposable
                 details = c.GetProperty("details").GetRawText(),
                 verification = c.GetProperty("verification").GetRawText(),
                 extractedBy = c.GetProperty("extractedBy").GetString(),
+                answerReused = c.GetProperty("answerReused").GetBoolean(),
             }).ToList(),
             failures = root.GetProperty("failures").GetRawText(),
         };

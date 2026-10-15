@@ -22,6 +22,11 @@ export interface PublishedOffer {
   readonly verification: PublishedVerification;
   readonly extractedBy: string;
   readonly extractedAt: string;
+  /**
+   * True when the model's answer was given on an earlier run for the identical page text and
+   * reused; extractedAt is then when the page was fetched on this run. Absent in older files.
+   */
+  readonly answerReused?: boolean;
 }
 
 export interface PublishedOfferDetails {

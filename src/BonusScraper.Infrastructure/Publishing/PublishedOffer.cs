@@ -9,4 +9,5 @@ internal sealed record PublishedOffer(
     PublishedOfferDetails Details,
     PublishedVerification Verification,
     string ExtractedBy,
-    DateTimeOffset ExtractedAt);
+    DateTimeOffset ExtractedAt,
+    bool AnswerReused);

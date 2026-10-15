@@ -71,7 +71,10 @@ export function provenance(offer: PublishedOffer): string {
     offer.verification.basis === 'operatorTerms'
       ? "checked against operator's terms"
       : 'checked against review text';
-  return `Extracted by ${withoutDateSuffix(offer.extractedBy)} · ${time} UTC · ${basis}`;
+  const model = withoutDateSuffix(offer.extractedBy);
+  return offer.answerReused
+    ? `Page unchanged · answer from ${model} on an earlier run · fetched ${time} UTC · ${basis}`
+    : `Extracted by ${model} · ${time} UTC · ${basis}`;
 }
 
 export function initial(casino: string): string {

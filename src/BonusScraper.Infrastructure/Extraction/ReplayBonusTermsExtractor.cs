@@ -18,6 +18,6 @@ internal sealed class ReplayBonusTermsExtractor(IOptions<ExtractionOptions> opti
 
         await using var stream = File.OpenRead(path);
         var recording = await JsonSerializer.DeserializeAsync<Recording>(stream, RecordingJson.Options, cancellationToken);
-        return recording is null ? ExtractorErrors.MalformedResponse : recording.Terms;
+        return recording is null ? ExtractorErrors.MalformedResponse : recording.Terms with { Reused = true };
     }
 }

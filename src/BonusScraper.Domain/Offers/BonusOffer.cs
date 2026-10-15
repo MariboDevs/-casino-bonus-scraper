@@ -20,6 +20,7 @@ public sealed class BonusOffer
         OfferText text,
         string extractedBy,
         DateTimeOffset extractedAt,
+        bool answerReused,
         OfferVerification verification)
     {
         Casino = casino;
@@ -30,6 +31,7 @@ public sealed class BonusOffer
         Text = text;
         ExtractedBy = extractedBy;
         ExtractedAt = extractedAt;
+        AnswerReused = answerReused;
         Verification = verification;
     }
 
@@ -49,6 +51,12 @@ public sealed class BonusOffer
 
     public DateTimeOffset ExtractedAt { get; }
 
+    /// <summary>
+    /// True when the model's answer was given on an earlier run for the identical page text and
+    /// reused. <see cref="ExtractedAt"/> is then when the page was fetched on this run.
+    /// </summary>
+    public bool AnswerReused { get; }
+
     public OfferVerification Verification { get; }
 
     public static ErrorOr<BonusOffer> Create(
@@ -59,12 +67,13 @@ public sealed class BonusOffer
         SourceUrl source,
         OfferText text,
         string extractedBy,
-        DateTimeOffset extractedAt)
+        DateTimeOffset extractedAt,
+        bool answerReused = false)
     {
         var verification = TermsCrossCheck.Check(
             new ExtractedFigures(wagering?.Multiplier, minimumDeposit, welcomeBonus.MaxBonus, welcomeBonus.MatchPercent),
             text);
 
-        return new BonusOffer(casino, welcomeBonus, wagering, minimumDeposit, source, text, extractedBy, extractedAt, verification);
+        return new BonusOffer(casino, welcomeBonus, wagering, minimumDeposit, source, text, extractedBy, extractedAt, answerReused, verification);
     }
 }

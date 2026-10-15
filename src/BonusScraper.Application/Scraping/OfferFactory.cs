@@ -35,7 +35,8 @@ internal static class OfferFactory
             source!,
             text!,
             terms.Model,
-            page.FetchedAt);
+            page.FetchedAt,
+            terms.Reused);
     }
 
     private static Money? OptionalMoney(decimal? amount, string? currency, List<Error> errors) =>

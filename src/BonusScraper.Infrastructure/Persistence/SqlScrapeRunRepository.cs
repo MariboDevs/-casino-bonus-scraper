@@ -28,11 +28,11 @@ internal sealed class SqlScrapeRunRepository(ISqlConnectionFactory connections) 
         INSERT INTO scrape.BonusOffer (
             ScrapeRunId, CasinoId, WelcomeBonusSummary, MatchPercent, MaxBonusAmount, FreeSpins,
             WageringMultiplier, MinimumDepositAmount, CurrencyCode, SourceUrl, RawTerms,
-            ExtractedBy, ExtractedAt, VerificationStatus, VerificationBasis, VerificationNotes)
+            ExtractedBy, ExtractedAt, AnswerReused, VerificationStatus, VerificationBasis, VerificationNotes)
         VALUES (
             @RunId, @CasinoId, @Summary, @MatchPercent, @MaxBonusAmount, @FreeSpins,
             @Wagering, @MinimumDeposit, @Currency, @SourceUrl, @RawTerms,
-            @ExtractedBy, @ExtractedAt, @Status, @Basis, @Notes);
+            @ExtractedBy, @ExtractedAt, @AnswerReused, @Status, @Basis, @Notes);
         """;
 
     private const string InsertFailure = """
@@ -75,6 +75,7 @@ internal sealed class SqlScrapeRunRepository(ISqlConnectionFactory connections) 
                         RawTerms = offer.Text.Full,
                         offer.ExtractedBy,
                         offer.ExtractedAt,
+                        offer.AnswerReused,
                         Status = offer.Verification.Status.ToString(),
                         Basis = offer.Verification.Basis.ToString(),
                         Notes = string.Join('\n', offer.Verification.Notes),

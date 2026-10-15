@@ -12,7 +12,7 @@ public sealed class RecordReplayTests : IDisposable
     private readonly string _directory = Path.Combine(Path.GetTempPath(), "bonus-recordings-" + Guid.NewGuid().ToString("N"));
 
     [Fact]
-    public async Task Replays_exactly_what_a_live_model_answered()
+    public async Task Replays_exactly_what_a_live_model_answered_marked_as_reused()
     {
         var live = Substitute.For<IBonusTermsExtractor>();
         live.ExtractAsync(Document, Arg.Any<CancellationToken>()).Returns(Answer);
@@ -20,7 +20,7 @@ public sealed class RecordReplayTests : IDisposable
         await new RecordingBonusTermsExtractor(live, _directory).ExtractAsync(Document, CancellationToken.None);
         var replayed = await Replay().ExtractAsync(Document, CancellationToken.None);
 
-        replayed.Value.ShouldBe(Answer);
+        replayed.Value.ShouldBe(Answer with { Reused = true });
     }
 
     [Fact]

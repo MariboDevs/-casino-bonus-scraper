@@ -34,6 +34,7 @@ public sealed class JsonOfferPublisherTests : IDisposable
         casino.GetProperty("details").GetProperty("maxBonus").GetProperty("currency").GetString().ShouldBe("GBP");
         casino.GetProperty("verification").GetProperty("status").GetString().ShouldBe("confirmed");
         casino.GetProperty("verification").GetProperty("basis").GetString().ShouldBe("operatorTerms");
+        casino.GetProperty("answerReused").GetBoolean().ShouldBeTrue();
 
         var failure = root.GetProperty("failures")[0];
         failure.GetProperty("casino").GetString().ShouldBe("Casumo");
@@ -72,7 +73,8 @@ public sealed class JsonOfferPublisherTests : IDisposable
             SourceUrl.Create(new Uri("https://www.casinoguide.co.uk/888-casino-review")).Value,
             OfferText.Create("Min £10 deposit. 100% bonus up to £200. 40x wagering.", null).Value,
             "test-model",
-            Start).Value);
+            Start,
+            answerReused: true).Value);
         run.Record(new ScrapeFailure("Casumo", new Uri("https://www.casinoguide.co.uk/casumo-casino-review"), "Source.Blocked", "Refused."));
         run.Complete(Start.AddMinutes(1));
         return run;

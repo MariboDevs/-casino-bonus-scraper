@@ -21,7 +21,7 @@ public sealed class UnchangedPageTests : IDisposable
 
         var result = await Extractor().ExtractAsync(Document, CancellationToken.None);
 
-        result.Value.ShouldBe(Yesterday);
+        result.Value.ShouldBe(Yesterday with { Reused = true });
         await _live.DidNotReceive().ExtractAsync(Arg.Any<BonusTermsDocument>(), Arg.Any<CancellationToken>());
     }
 
@@ -35,6 +35,7 @@ public sealed class UnchangedPageTests : IDisposable
         var result = await Extractor().ExtractAsync(changed, CancellationToken.None);
 
         result.Value.ShouldBe(Today);
+        result.Value.Reused.ShouldBeFalse();
     }
 
     [Fact]

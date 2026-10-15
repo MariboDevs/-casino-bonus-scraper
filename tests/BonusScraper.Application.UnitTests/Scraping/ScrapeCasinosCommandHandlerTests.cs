@@ -43,6 +43,20 @@ public sealed class ScrapeCasinosCommandHandlerTests
     }
 
     [Fact]
+    public async Task Marks_an_offer_whose_model_answer_was_reused()
+    {
+        GivenExtraction(EightEightEight, Terms("100% up to 200 GBP", 100, 200, 40, 10) with { Reused = true });
+
+        await Handle(EightEightEight, Grosvenor);
+
+        await _runs.Received(1).SaveAsync(
+            Arg.Is<ScrapeRun>(r =>
+                r.Offers.Single(o => o.Casino.Value == EightEightEight.Name).AnswerReused
+                && !r.Offers.Single(o => o.Casino.Value == Grosvenor.Name).AnswerReused),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
     public async Task Gives_the_extractor_the_same_text_the_offer_is_verified_against()
     {
         ScrapeRun? saved = null;
