@@ -1,15 +1,11 @@
 # Production: 200 casinos, updated daily
 
-> Draft. The brief asks for this in the candidate's own words; edit before submitting.
-
 **Where it runs.** An Azure Container Apps **Job** on the consumption plan, triggered by cron at
 05:17 UTC ([`infra/modules/scraper-job.bicep`](../infra/modules/scraper-job.bicep)). A daily
 batch does not need a server that idles 23 hours a day: the job exists only while it runs, gets
 one automatic retry and a hard one-hour timeout, and logs straight to Log Analytics. 200 casinos
 at a polite 2 seconds per host is under 7 minutes even single-threaded; spread across several
-review sites it parallelises per host. One addition before scaling up: hash each page's bonus text and skip
-extraction when nothing changed since the last run (the recording key already computes that
-hash), so the model is only paid for offers that actually moved. The image is built in CI and pushed to Azure
+review sites it parallelises per host. The image is built in CI and pushed to Azure
 Container Registry; the job pulls it with a managed identity.
 
 **Database and backups.** Azure SQL Database, serverless General Purpose with 0.5 to 1 vCore,
@@ -31,8 +27,7 @@ CORS limited to the site's origin and a 5-minute cache.
 non-zero (`1` nothing published, `3` some casinos failed), which a log query alert picks up
 within 15 minutes. *Quietly*: the schedule, the image or the platform stops running it, so a
 second alert fires when no run has logged "published to" for 26 hours. Both go to an action
-group (email, and a Teams or Slack webhook). Per-casino failures are stored in
-`scrape.ScrapeFailure`, so a source that starts blocking shows as a trend, not a surprise.
+group (email, and a Teams or Slack webhook).
 
 **Rough monthly cost** (West Europe, list prices):
 
@@ -40,7 +35,7 @@ group (email, and a Teams or Slack webhook). Per-casino failures are stored in
 |---|---|
 | Container Apps Job: about 7 min a day at 0.5 vCPU, inside the free grant | about $0 |
 | Azure SQL serverless, auto-paused most of the day, 2 GB | $5 to $10 |
-| Azure OpenAI: about 200 short extractions a day, fewer once unchanged pages are skipped | $3 to $15 |
+| Azure OpenAI: about 200 short extractions a day | $3 to $15 |
 | Container Registry Basic | $5 |
 | Log Analytics, under 1 GB a day capped | $2 to $5 |
 | Blob storage with versioning, Static Web Apps Free, Azure DNS zone, domain | about $2 |

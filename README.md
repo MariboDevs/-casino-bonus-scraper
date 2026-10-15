@@ -4,16 +4,19 @@ Pulls the welcome offer for three online casinos from one public review site, us
 model to turn each offer's free-text terms into structured fields, checks the model's answer
 against the source text, and publishes the result as JSON and as a mobile-friendly web page.
 
-- **Live page:** https://maribodevs.github.io/-casino-bonus-scraper/ (published by the first scrape run)
+- **Live page:** https://maribodevs.github.io/-casino-bonus-scraper/
 - **Data:** [`data/casinos.json`](data/casinos.json), refreshed daily by
   [a GitHub Actions workflow](.github/workflows/scrape-and-publish.yml)
 - **Source:** [casinoguide.co.uk](https://www.casinoguide.co.uk/robots.txt) review pages for
   888 Casino, Magic Red Casino and Grosvenor Casino. Its robots.txt allows them. AskGamblers was tried
-  first and answered 403, so it was dropped rather than worked around.
+  first and answered 403, so it was dropped rather than worked around. Why the third casino is Magic Red
+  and not Casumo is in [docs/SUBMISSION.md](docs/SUBMISSION.md).
 
 | Desktop | Phone |
 |---|---|
 | ![The table on a desktop browser](docs/screenshots/desktop.png) | ![The same data as cards on a phone](docs/screenshots/phone.png) |
+
+The screenshots are from an earlier run; the live page shows the latest one.
 
 | Field | Example in `casinos.json` |
 |---|---|
@@ -34,7 +37,8 @@ dotnet user-secrets --project src/BonusScraper.Cli set Extraction:AzureOpenAI:De
 dotnet user-secrets --project src/BonusScraper.Cli set Extraction:AzureOpenAI:ApiKey <key>
 dotnet run --project src/BonusScraper.Cli -- scrape
 
-# No model key? Replay the answers a live model gave on a previous run (offline, free):
+# No model key? Replay the model answers recorded on the last run. No key and no cost, but it
+#    still fetches the live pages, and a page that has changed since has nothing to replay:
 dotnet run --project src/BonusScraper.Cli -- scrape --provider Replay
 
 # Claude instead of Azure OpenAI:
@@ -44,7 +48,8 @@ dotnet run --project src/BonusScraper.Cli -- scrape --provider Anthropic
 # 2. The page (copies data/casinos.json into the build)
 cd frontend && npm ci && npm start          # http://localhost:4200
 
-# 3. Or everything at once: SQL Server, Seq, migrator, scraper and page (needs Docker)
+# 3. Or everything at once: SQL Server, Seq, migrator, scraper and page
+#    (needs Docker and the model settings from step 1)
 dotnet run --project src/BonusScraper.AppHost
 ```
 
@@ -55,7 +60,38 @@ published, `1` nothing published (the previous file is left untouched), `2` bad 
 dotnet test BonusScraper.slnx    # 133 unit tests incl. the golden master; the 4 integration tests need Docker
 ```
 
-## How it works
+## Production plan
+
+The written part is [docs/PRODUCTION.md](docs/PRODUCTION.md), with the Bicep in [`infra/`](infra).
+
+## Five lines on AI
+
+1. Tool: Claude Code for the whole build, with me reviewing each step; the scraper itself calls Azure OpenAI gpt-5.5 (Claude selectable).
+2. Where it was wrong: the check it wrote to verify the model's figures treated a review's article text as just as reliable as the operator's own terms box.
+3. It showed on the first live run, which flagged Grosvenor as "needs review": its article still described an old 100% match offer, while the terms box said a 30 GBP bonus.
+4. I caught it by reading the flagged row against the live page: the model had read the terms box correctly, and it was the check that was wrong.
+5. The check now verifies against the operator's terms first and records which text it used, and a golden-master test replays the real model answers so the mistake cannot come back.
+
+## Time taken
+
+The core brief (scraper, JSON, page, README and production plan) was done in about 2 hours. I
+then went past the 3-hour cap on purpose, to about 5.5 hours in total over two sittings, on the
+verification check, the tests, the daily publishing job and a page redesign. The commit history
+shows the order.
+
+## What is missing
+
+- The production job's container image is not built or pushed yet; the Bicep expects one.
+- The Bicep in `infra/` is written but has never been deployed. The live page runs on GitHub
+  Pages and GitHub Actions instead, which is free and enough for three casinos.
+- Three casinos from one source. For 200, more review sources (or operators' own pages) are
+  needed, since one site will not cover them all.
+- No change detection: every page is sent to the model every day. Hashing each page's bonus
+  text and skipping unchanged ones would cut the model cost.
+
+## Design notes
+
+### How it works
 
 ```
 review page ──robots.txt check──► polite fetch ──► parse offer box + bonus section
@@ -106,11 +142,5 @@ logging pipeline behaviours), `Infrastructure` (HTTP, parsing, models, Dapper, p
 `Migrator` (DbUp scripts), `Cli`, `AppHost` (Aspire), `frontend` (Angular, zoneless, signals,
 Tailwind v4 tokens). Decisions are recorded in [`docs/adr`](docs/adr).
 
-## Taking it to production
-
-See [docs/PRODUCTION.md](docs/PRODUCTION.md) and the Bicep in [`infra/`](infra).
-
-## Notes on AI
-
-See [docs/SUBMISSION.md](docs/SUBMISSION.md) for the five lines on AI, the time taken and
-what is missing.
+The demo is hosted on GitHub Pages because it is free; the production plan uses Azure Static
+Web Apps for the custom domain and the Azure-side alerting. Both serve the same build.
