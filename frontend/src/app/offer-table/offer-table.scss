@@ -16,7 +16,7 @@
 
 @media (min-width: 65rem) {
   .table-view {
-    display: block;
+    display: grid;
   }
 
   .cards {
@@ -24,17 +24,42 @@
   }
 }
 
-/* minmax(0, …) on every track: without it the badge collides with the chevron at mid widths. */
+/*
+ * One column template, on the table itself. The header, every item and every row take it
+ * through subgrid, so a heading always sits over its cells even when a track is sized by its
+ * content. The text columns may shrink (minmax(0, …)) and wrap; the source link and the check
+ * badge never wrap, so their tracks never shrink below their widest entry. Without that floor
+ * the longest badge ("Checked against review text") runs into the chevron at mid widths.
+ * Where everything fits, the fr ratios apply unchanged. The 8 px edge tracks plus the 16 px
+ * gap give the 24 px inset, which padding cannot give a subgrid's fixed chevron track.
+ */
+.table-view {
+  grid-template-columns:
+    8px minmax(0, 1.6fr) minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 0.9fr)
+    minmax(max-content, 1.2fr) minmax(max-content, 1.3fr) 32px 8px;
+  column-gap: 16px;
+}
+
+.item,
 .cols {
   display: grid;
-  grid-template-columns:
-    minmax(0, 1.6fr) minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 0.9fr) minmax(0, 1.2fr)
-    minmax(0, 1.3fr) 32px;
-  gap: 16px;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+.cols > :first-child {
+  grid-column-start: 2;
+}
+
+/* The panel spans every track, so its own width would otherwise be shared out to the two
+   content-sized tracks and widen them. It takes the table's width instead of setting it. */
+.detail {
+  grid-column: 1 / -1;
+  contain: inline-size;
 }
 
 .head {
-  padding: 12px 24px;
+  padding: 12px 0;
   background: var(--surface-container-low);
   border-bottom: 1px solid var(--outline-variant);
 }
@@ -49,7 +74,7 @@
 
 .row {
   align-items: center;
-  padding: 18px 24px;
+  padding: 18px 0;
   cursor: pointer;
   transition: background var(--dur-base) var(--ease-standard);
 
