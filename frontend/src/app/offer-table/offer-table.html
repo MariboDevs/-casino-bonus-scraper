@@ -1,33 +1,125 @@
-<table class="offers">
-  <caption class="sr-only">
-    Welcome bonus, wagering requirement and minimum deposit for each casino
-  </caption>
-  <thead>
-    <tr>
-      <th scope="col">Casino</th>
-      <th scope="col">Welcome bonus</th>
-      <th scope="col">Wagering</th>
-      <th scope="col">Min. deposit</th>
-      <th scope="col">Source</th>
-      <th scope="col">Check</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (offer of offers(); track offer.casino) {
-      <tr>
-        <th scope="row" class="casino">{{ offer.casino }}</th>
-        <td data-label="Welcome bonus" class="bonus">{{ offer.welcomeBonus }}</td>
-        <td data-label="Wagering" class="numeric">{{ wagering(offer) }}</td>
-        <td data-label="Min. deposit" class="numeric">
-          {{ offer.minimumDeposit ?? 'Not stated' }}
-        </td>
-        <td data-label="Source">
-          <a [href]="offer.sourceUrl" target="_blank" rel="noopener noreferrer nofollow">
-            {{ host(offer.sourceUrl) }}
-          </a>
-        </td>
-        <td data-label="Check"><app-verification-badge [verification]="offer.verification" /></td>
-      </tr>
-    }
-  </tbody>
-</table>
+<div class="table-view card" role="table" aria-label="Current offers">
+  <div class="cols head" role="row">
+    <span class="label" role="columnheader">Casino</span>
+    <span class="label" role="columnheader">Welcome bonus</span>
+    <span class="label" role="columnheader">Wagering</span>
+    <span class="label" role="columnheader">Min. deposit</span>
+    <span class="label" role="columnheader">Source</span>
+    <span class="label" role="columnheader">Check</span>
+    <span role="columnheader"><span class="sr-only">Details</span></span>
+  </div>
+
+  @for (offer of offers(); track offer.casino; let i = $index) {
+    <div class="item" [class.item--open]="isOpen(offer)" role="rowgroup">
+      <div class="cols row" role="row" (click)="toggle(offer)">
+        <span class="casino" role="cell">
+          <span class="avatar" aria-hidden="true">{{ initial(offer.casino) }}</span>
+          <span class="casino-name">{{ offer.casino }}</span>
+        </span>
+        <span class="bonus" role="cell">{{ offer.welcomeBonus }}</span>
+        <span class="figure cell-figure" role="cell">{{ wagering(offer) }}</span>
+        <span class="figure cell-figure" role="cell">{{
+          offer.minimumDeposit ?? 'Not stated'
+        }}</span>
+        <span role="cell">
+          <a
+            class="source"
+            [href]="offer.sourceUrl"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            (click)="$event.stopPropagation()"
+            >{{ host(offer.sourceUrl) }}<span class="ms" aria-hidden="true">north_east</span></a
+          >
+        </span>
+        <span role="cell"><app-verification-badge [verification]="offer.verification" /></span>
+        <span class="toggle-cell" role="cell">
+          <button
+            type="button"
+            class="toggle"
+            [attr.aria-expanded]="isOpen(offer)"
+            [attr.aria-controls]="panelId(i)"
+            [attr.aria-label]="'Details for ' + offer.casino"
+            (click)="$event.stopPropagation(); toggle(offer)"
+          >
+            <span class="ms chevron" aria-hidden="true">expand_more</span>
+          </button>
+        </span>
+      </div>
+
+      @if (isOpen(offer)) {
+        <div class="detail" role="row" [id]="panelId(i)">
+          <div class="detail-body" role="cell" aria-colspan="7">
+            <div class="tiles">
+              @for (tile of tiles(offer); track tile.label) {
+                <div class="tile">
+                  <span class="label">{{ tile.label }}</span>
+                  <span class="figure tile-value" [class.muted]="tile.muted">{{ tile.value }}</span>
+                </div>
+              }
+            </div>
+            @if (offer.verification.notes.length > 0) {
+              <ul class="notes">
+                @for (note of offer.verification.notes; track note) {
+                  <li>{{ note }}</li>
+                }
+              </ul>
+            }
+            @if (articleOnly(offer)) {
+              <p class="explainer">
+                The source page has no operator terms for this casino, so the figures were checked
+                against the review's own article, which can be out of date. Confirm on the casino's
+                site.
+              </p>
+            }
+            <span class="provenance">{{ provenance(offer) }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<div class="cards">
+  @for (offer of offers(); track offer.casino) {
+    <article class="offer-card card">
+      <div class="card-top">
+        <span class="casino">
+          <span class="avatar" aria-hidden="true">{{ initial(offer.casino) }}</span>
+          <h3 class="casino-name">{{ offer.casino }}</h3>
+        </span>
+        <app-verification-badge [verification]="offer.verification" [compact]="true" />
+      </div>
+      <div class="card-bonus">
+        <span class="label">Welcome bonus</span>
+        <span class="card-bonus-value">{{ offer.welcomeBonus }}</span>
+      </div>
+      <dl class="pair">
+        <div>
+          <dt class="label">Wagering</dt>
+          <dd class="figure">{{ wagering(offer) }}</dd>
+        </div>
+        <div>
+          <dt class="label">Min. deposit</dt>
+          <dd class="figure">{{ offer.minimumDeposit ?? 'Not stated' }}</dd>
+        </div>
+      </dl>
+      @if (offer.verification.notes.length > 0) {
+        <ul class="notes notes--card">
+          @for (note of offer.verification.notes; track note) {
+            <li>{{ note }}</li>
+          }
+        </ul>
+      }
+      <div class="card-source">
+        <span class="label label--tight">Source</span>
+        <a
+          class="source"
+          [href]="offer.sourceUrl"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          >{{ host(offer.sourceUrl) }}<span class="ms" aria-hidden="true">north_east</span></a
+        >
+      </div>
+    </article>
+  }
+</div>

@@ -1,56 +1,101 @@
+<app-site-header [runStatus]="runStatus()" />
+
 <main class="page">
-  <header class="intro">
-    <h1>Casino welcome bonuses</h1>
-    <p class="lede">
-      Scraped daily from a public review site. A language model reads each casino's bonus terms into
-      structured fields, then a deterministic check re-reads the source text and flags any figure it
-      cannot confirm.
-    </p>
-  </header>
+  <section class="hero">
+    <div class="intro">
+      <span class="eyebrow">Refreshed daily · United Kingdom</span>
+      <h1>Casino welcome bonuses</h1>
+      <p class="lede">
+        Scraped daily from a public review site. A language model reads each casino's bonus terms
+        into structured fields, then a deterministic check re-reads the source text and flags any
+        figure it cannot confirm.
+      </p>
+    </div>
+    <dl class="run card">
+      <dt class="label">Source</dt>
+      <dd class="run-source">{{ published()?.source ?? 'casinoguide.co.uk' }}</dd>
+      @if (published(); as data) {
+        <dt class="label">Updated</dt>
+        <dd class="figure run-value">
+          <time [attr.datetime]="data.generatedAt">{{
+            data.generatedAt | date: 'd MMM y, HH:mm' : 'UTC'
+          }}</time>
+          UTC
+        </dd>
+        <dt class="label">Run</dt>
+        <dd class="figure run-value run-muted" [title]="data.runId">{{ shortRunId() }}</dd>
+        <dt class="label">Model</dt>
+        <dd class="figure run-value run-muted" [title]="modelTitle()">{{ modelFamily() }}</dd>
+      }
+    </dl>
+  </section>
 
   @if (store.loading()) {
-    <p class="status" role="status">Loading offers…</p>
+    <div class="state card" role="status">
+      <span class="state-text">Loading offers…</span>
+      <div class="bar bar--60" aria-hidden="true"></div>
+      <div class="bar bar--80" aria-hidden="true"></div>
+      <div class="bar bar--45" aria-hidden="true"></div>
+    </div>
   } @else if (store.failed()) {
-    <p class="status status--error" role="alert">
-      The offers could not be loaded. Please try again later.
-    </p>
-  } @else if (store.offers(); as published) {
-    <p class="meta">
-      Source: <strong>{{ published.source }}</strong>
-      <span class="separator" aria-hidden="true">·</span>
-      Updated
-      <time [attr.datetime]="published.generatedAt">{{
-        published.generatedAt | date: 'd MMM y, HH:mm' : 'UTC'
-      }}</time>
-      UTC
-    </p>
+    <div class="error" role="alert">
+      <span class="ms" aria-hidden="true">cloud_off</span>
+      <span>The offers could not be loaded. Please try again later.</span>
+    </div>
+  } @else if (published(); as data) {
+    @if (data.casinos.length > 0) {
+      <app-offer-summary [published]="data" />
 
-    @if (published.casinos.length > 0) {
-      <app-offer-table [offers]="published.casinos" />
+      <section class="offers" aria-labelledby="offers-heading">
+        <div class="offers-head">
+          <h2 id="offers-heading">Current offers</h2>
+          <span class="hint"
+            >Select a row to see the extracted figures and how they were checked.</span
+          >
+        </div>
+        <app-offer-table [offers]="data.casinos" />
+      </section>
     } @else {
-      <p class="status">No offers were published on the last run.</p>
+      <div class="state card">
+        <span class="state-text">No offers were published on the last run.</span>
+      </div>
     }
 
-    @if (published.failures.length > 0) {
-      <section class="failures" aria-labelledby="failures-heading">
-        <h2 id="failures-heading">Not updated on the last run</h2>
-        <ul>
-          @for (failure of published.failures; track failure.casino) {
-            <li [title]="failure.code">
-              <strong>{{ failure.casino }}</strong
-              >: {{ failureReason(failure.code) }}
-            </li>
-          }
-        </ul>
+    @if (data.failures.length > 0) {
+      <section class="failures card" aria-labelledby="failures-heading">
+        <span class="failures-icon" aria-hidden="true"><span class="ms">sync_problem</span></span>
+        <div class="failures-body">
+          <h2 id="failures-heading">Not updated on the last run</h2>
+          <ul>
+            @for (failure of data.failures; track failure.casino) {
+              <li [title]="failure.code">
+                <strong>{{ failure.casino }}</strong>
+                <span>{{ failureReason(failure.code) }}</span>
+                <code>{{ failure.code }}</code>
+              </li>
+            }
+          </ul>
+        </div>
       </section>
     }
   }
 
-  <footer class="footer">
-    <p>
-      18+ only. Offers change often and terms apply: always read the operator's full terms before
-      depositing.
-      <a href="https://www.begambleaware.org/" rel="noopener noreferrer">BeGambleAware.org</a>
-    </p>
-  </footer>
+  <app-method-steps />
 </main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-note">
+      <span class="roundel" aria-hidden="true">18+</span>
+      <p>
+        18+ only. Offers change often and terms apply: always read the operator's full terms before
+        depositing.
+        <a href="https://www.begambleaware.org/" rel="noopener noreferrer">BeGambleAware.org</a>
+      </p>
+    </div>
+    <span class="label footer-meta"
+      >Schema v{{ published()?.schemaVersion ?? schemaVersion }} ·
+      {{ published()?.source ?? 'casinoguide.co.uk' }}</span
+    >
+  </div>
+</footer>

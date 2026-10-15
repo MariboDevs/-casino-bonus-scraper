@@ -1,0 +1,23 @@
+<header class="bar">
+  <div class="inner">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">%</span>
+      <span class="words">
+        <span class="name">Bonus scraper</span>
+        <span class="sub">Welcome offer index</span>
+      </span>
+    </div>
+    <div class="actions">
+      @if (runStatus() === 'succeeded') {
+        <span class="pill pill--ok"><span class="dot" aria-hidden="true"></span>Run succeeded</span>
+      } @else if (runStatus() === 'partial') {
+        <span class="pill pill--partial"
+          ><span class="dot" aria-hidden="true"></span>Partly updated</span
+        >
+      }
+      <a class="download" href="data/casinos.json" download="casinos.json">
+        <span class="ms" aria-hidden="true">download</span>Download JSON
+      </a>
+    </div>
+  </div>
+</header>

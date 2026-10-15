@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--outline-variant);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--elev-1);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 24px;
+  background: var(--surface-container-lowest);
+}
+
+.label {
+  line-height: 16px;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  line-height: 32px;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--on-surface);
+}
+
+.note {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--on-surface-variant);
+}

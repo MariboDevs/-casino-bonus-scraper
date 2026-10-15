@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { badgeKind } from '../offers/offer-view';
 import { PublishedVerification } from '../offers/published-offers';
 
 /**
  * Says whether a deterministic re-reading of the source text agreed with the language
- * model. Provisional offers expose the reasons, so the reader can judge for themselves.
+ * model. Display only: the reasons live in the table's expanded row and inline on cards.
  */
 @Component({
   selector: 'app-verification-badge',
@@ -14,6 +15,8 @@ import { PublishedVerification } from '../offers/published-offers';
 export class VerificationBadge {
   readonly verification = input.required<PublishedVerification>();
 
-  protected readonly confirmed = computed(() => this.verification().status === 'confirmed');
-  protected readonly articleOnly = computed(() => this.verification().basis === 'reviewArticle');
+  /** Cards have less room, so the review-text label shortens. */
+  readonly compact = input(false);
+
+  protected readonly kind = computed(() => badgeKind(this.verification()));
 }

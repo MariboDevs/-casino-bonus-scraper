@@ -1,0 +1,18 @@
+<section class="method" aria-labelledby="method-heading">
+  <div class="heading">
+    <span class="eyebrow">Method</span>
+    <h2 id="method-heading">How each figure is checked</h2>
+  </div>
+  <ol class="steps">
+    @for (step of steps; track step.n) {
+      <li class="step">
+        <div class="step-head">
+          <span class="n">{{ step.n }}</span>
+          <span class="ms" aria-hidden="true">{{ step.icon }}</span>
+        </div>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.body }}</p>
+      </li>
+    }
+  </ol>
+</section>

@@ -1,0 +1,9 @@
+<section class="strip" aria-label="Summary">
+  @for (cell of cells(); track cell.label) {
+    <div class="cell">
+      <span class="label">{{ cell.label }}</span>
+      <span class="value">{{ cell.value }}</span>
+      <span class="note">{{ cell.note }}</span>
+    </div>
+  }
+</section>

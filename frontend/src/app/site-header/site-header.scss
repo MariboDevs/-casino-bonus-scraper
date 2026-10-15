@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.inner {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 14px var(--page-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand,
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.actions {
+  flex-wrap: wrap;
+}
+
+.mark {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.words {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.12em;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.pill--ok {
+  background: var(--tertiary-fixed);
+  color: var(--on-tertiary-fixed-variant);
+
+  .dot {
+    background: var(--tertiary);
+  }
+}
+
+.pill--partial {
+  background: var(--primary-fixed);
+  color: var(--on-primary-fixed-variant);
+
+  .dot {
+    background: var(--primary);
+  }
+}
+
+.download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background var(--dur-base) var(--ease-standard);
+
+  .ms {
+    font-size: 18px;
+  }
+
+  &:hover {
+    background: color-mix(in oklab, var(--primary) 92%, black);
+    color: var(--on-primary);
+  }
+}

@@ -1,63 +1,68 @@
 @use 'tailwindcss';
 
 /*
- * Semantic tokens. Components only ever consume these, so a re-brand or a new
- * colour scheme is a change here and nowhere else.
+ * PawChronos design tokens (light only). Components consume these semantic tokens and
+ * never a raw colour, so a re-brand is a change here and nowhere else.
  */
 :root {
-  --bg: #f6f7f9;
-  --surface: #ffffff;
-  --surface-muted: #f0f2f5;
-  --text: #14171f;
-  --text-muted: #5b6474;
-  --border: #dde1e8;
-  --accent: #1d4ed8;
-  --confirmed-bg: #e7f6ec;
-  --confirmed-fg: #17633a;
-  --provisional-bg: #fff4dc;
-  --provisional-fg: #8a5a00;
-  --danger-bg: #fde8e8;
-  --danger-fg: #9b1c1c;
-  --radius: 0.75rem;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --surface: #fbf9f7;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f5f3f1;
+  --surface-container-high: #eae8e6;
+  --on-surface: #1b1c1b;
+  --on-surface-variant: #504444;
+  --outline: #827473;
+  --outline-variant: #d4c2c2;
+  --primary: #7b5455;
+  --on-primary: #ffffff;
+  --primary-fixed: #ffdad9;
+  --on-primary-fixed-variant: #603d3e;
+  --tertiary: #406467;
+  --tertiary-fixed: #c3eaed;
+  --on-tertiary-fixed-variant: #284c4f;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
 
-  color-scheme: light dark;
-}
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0e1116;
-    --surface: #161b22;
-    --surface-muted: #1f2630;
-    --text: #e8ebf0;
-    --text-muted: #9aa4b2;
-    --border: #2b3340;
-    --accent: #7aa7ff;
-    --confirmed-bg: #12301f;
-    --confirmed-fg: #7fd8a1;
-    --provisional-bg: #3a2c0b;
-    --provisional-fg: #f3c766;
-    --danger-bg: #3b1515;
-    --danger-fg: #f3a3a3;
-  }
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+
+  --elev-1: 0 4px 12px rgba(0, 0, 0, 0.03);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-base: 200ms;
+
+  --page-x: clamp(16px, 4vw, 48px);
+  /* 1200 px of content plus the side padding: the design's containers are content-box. */
+  --page-max: calc(1200px + 2 * var(--page-x));
+
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-bg: var(--bg);
   --color-surface: var(--surface);
-  --color-surface-muted: var(--surface-muted);
-  --color-ink: var(--text);
-  --color-ink-muted: var(--text-muted);
-  --color-line: var(--border);
-  --color-accent: var(--accent);
-  --color-confirmed-bg: var(--confirmed-bg);
-  --color-confirmed-fg: var(--confirmed-fg);
-  --color-provisional-bg: var(--provisional-bg);
-  --color-provisional-fg: var(--provisional-fg);
-  --color-danger-bg: var(--danger-bg);
-  --color-danger-fg: var(--danger-fg);
-  --radius-card: var(--radius);
+  --color-surface-lowest: var(--surface-container-lowest);
+  --color-surface-low: var(--surface-container-low);
+  --color-surface-high: var(--surface-container-high);
+  --color-ink: var(--on-surface);
+  --color-ink-muted: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-line: var(--outline-variant);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-fixed: var(--primary-fixed);
+  --color-on-primary-fixed: var(--on-primary-fixed-variant);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-fixed: var(--tertiary-fixed);
+  --color-on-tertiary-fixed: var(--on-tertiary-fixed-variant);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+  --radius-card: var(--radius-lg);
   --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
 html {
@@ -66,8 +71,74 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--surface);
+  color: var(--on-surface);
   font-family: var(--font-sans);
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--primary);
+  /* Tailwind's preflight removes link underlines; the design keeps them. */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: var(--on-primary-fixed-variant);
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Material Symbols Rounded glyphs. Always decorative here: mark them aria-hidden. */
+.ms {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* Uppercase mono label used across cards, tiles and the run panel. */
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+.figure {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.card {
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-1);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
