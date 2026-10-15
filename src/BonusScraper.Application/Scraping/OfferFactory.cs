@@ -19,6 +19,7 @@ internal static class OfferFactory
         var wagering = terms.WageringMultiplier is { } multiplier
             ? Collect(WageringRequirement.Create(multiplier), errors)
             : null;
+        var text = Collect(OfferText.Create(page.OperatorText, page.Body), errors);
         var welcome = Collect(WelcomeBonus.Create(terms.WelcomeBonusSummary, terms.MatchPercent, maxBonus, terms.FreeSpins), errors);
 
         if (errors.Count > 0)
@@ -32,7 +33,7 @@ internal static class OfferFactory
             wagering,
             minimumDeposit,
             source!,
-            page.CombinedText,
+            text!,
             terms.Model,
             page.FetchedAt);
     }

@@ -38,6 +38,8 @@ export interface PublishedMoney {
 
 export interface PublishedVerification {
   readonly status: 'confirmed' | 'provisional';
+  /** Which text the check read: the operator's own terms, or only the review's article. */
+  readonly basis: 'operatorTerms' | 'reviewArticle';
   readonly notes: readonly string[];
 }
 

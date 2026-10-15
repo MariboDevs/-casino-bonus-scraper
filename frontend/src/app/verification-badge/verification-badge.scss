@@ -18,9 +18,19 @@
   color: var(--confirmed-fg);
 }
 
+.badge--article {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
 .badge--provisional {
   background: var(--provisional-bg);
   color: var(--provisional-fg);
+}
+
+.badge--article,
+.badge--provisional {
   cursor: pointer;
   list-style: none;
 
@@ -33,7 +43,7 @@
   }
 }
 
-.provisional[open] .badge--provisional::after {
+.disclosure[open] summary::after {
   content: '▴';
 }
 
@@ -41,6 +51,7 @@
   margin: 0.5rem 0 0;
   padding-left: 1rem;
   max-width: 22rem;
+  white-space: normal;
   color: var(--text-muted);
   font-size: 0.8125rem;
 }

@@ -5,7 +5,7 @@ using ErrorOr;
 namespace BonusScraper.Domain.Offers;
 
 /// <summary>
-/// One casino's welcome offer as read from one source on one run. The raw terms are
+/// One casino's welcome offer as read from one source on one run. The source text is
 /// part of the aggregate, not a log line: whatever the model concluded, the text it
 /// concluded it from travels with the result.
 /// </summary>
@@ -17,7 +17,7 @@ public sealed class BonusOffer
         WageringRequirement? wagering,
         Money? minimumDeposit,
         SourceUrl source,
-        string rawTerms,
+        OfferText text,
         string extractedBy,
         DateTimeOffset extractedAt,
         OfferVerification verification)
@@ -27,7 +27,7 @@ public sealed class BonusOffer
         Wagering = wagering;
         MinimumDeposit = minimumDeposit;
         Source = source;
-        RawTerms = rawTerms;
+        Text = text;
         ExtractedBy = extractedBy;
         ExtractedAt = extractedAt;
         Verification = verification;
@@ -43,7 +43,7 @@ public sealed class BonusOffer
 
     public SourceUrl Source { get; }
 
-    public string RawTerms { get; }
+    public OfferText Text { get; }
 
     public string ExtractedBy { get; }
 
@@ -57,19 +57,14 @@ public sealed class BonusOffer
         WageringRequirement? wagering,
         Money? minimumDeposit,
         SourceUrl source,
-        string? rawTerms,
+        OfferText text,
         string extractedBy,
         DateTimeOffset extractedAt)
     {
-        if (string.IsNullOrWhiteSpace(rawTerms))
-        {
-            return OfferErrors.RawTermsMissing;
-        }
-
         var verification = TermsCrossCheck.Check(
             new ExtractedFigures(wagering?.Multiplier, minimumDeposit, welcomeBonus.MaxBonus, welcomeBonus.MatchPercent),
-            rawTerms);
+            text);
 
-        return new BonusOffer(casino, welcomeBonus, wagering, minimumDeposit, source, rawTerms, extractedBy, extractedAt, verification);
+        return new BonusOffer(casino, welcomeBonus, wagering, minimumDeposit, source, text, extractedBy, extractedAt, verification);
     }
 }

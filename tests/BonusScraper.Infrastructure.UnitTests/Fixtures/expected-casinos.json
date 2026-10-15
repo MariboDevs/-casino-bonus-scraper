@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-15T04:24:34.7827903+00:00",
+  "runId": "01a13dcd-eb51-77ac-8fbb-fff39144fede",
+  "source": "casinoguide.co.uk",
+  "outcome": "succeeded",
+  "casinos": [
+    {
+      "casino": "888 Casino",
+      "welcomeBonus": "100% up to 200 GBP",
+      "wageringRequirement": 40,
+      "minimumDeposit": "10 GBP",
+      "sourceUrl": "https://www.casinoguide.co.uk/888-casino-review",
+      "details": {
+        "matchPercent": 100,
+        "maxBonus": {
+          "amount": 200,
+          "currency": "GBP"
+        },
+        "freeSpins": null,
+        "minimumDeposit": {
+          "amount": 10,
+          "currency": "GBP"
+        }
+      },
+      "verification": {
+        "status": "confirmed",
+        "basis": "operatorTerms",
+        "notes": []
+      },
+      "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
+      "extractedAt": "2026-10-15T04:24:31.1340214+00:00"
+    },
+    {
+      "casino": "Casumo",
+      "welcomeBonus": "100% up to 300 EUR + 20 free spins",
+      "wageringRequirement": 30,
+      "minimumDeposit": "100 EUR",
+      "sourceUrl": "https://www.casinoguide.co.uk/casumo-casino-review",
+      "details": {
+        "matchPercent": 100,
+        "maxBonus": {
+          "amount": 300,
+          "currency": "EUR"
+        },
+        "freeSpins": 20,
+        "minimumDeposit": {
+          "amount": 100,
+          "currency": "EUR"
+        }
+      },
+      "verification": {
+        "status": "confirmed",
+        "basis": "reviewArticle",
+        "notes": []
+      },
+      "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
+      "extractedAt": "2026-10-15T04:24:31.8226282+00:00"
+    },
+    {
+      "casino": "Grosvenor Casino",
+      "welcomeBonus": "30 GBP bonus",
+      "wageringRequirement": 30,
+      "minimumDeposit": "20 GBP",
+      "sourceUrl": "https://www.casinoguide.co.uk/grosvenor-casino-review",
+      "details": {
+        "matchPercent": null,
+        "maxBonus": {
+          "amount": 30,
+          "currency": "GBP"
+        },
+        "freeSpins": null,
+        "minimumDeposit": {
+          "amount": 20,
+          "currency": "GBP"
+        }
+      },
+      "verification": {
+        "status": "confirmed",
+        "basis": "operatorTerms",
+        "notes": []
+      },
+      "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
+      "extractedAt": "2026-10-15T04:24:34.7792045+00:00"
+    }
+  ],
+  "failures": []
+}

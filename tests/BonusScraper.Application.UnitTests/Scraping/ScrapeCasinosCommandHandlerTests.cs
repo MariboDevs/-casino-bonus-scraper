@@ -51,7 +51,7 @@ public sealed class ScrapeCasinosCommandHandlerTests
         await Handle(EightEightEight);
 
         await _extractor.Received(1).ExtractAsync(
-            Arg.Is<BonusTermsDocument>(d => d.Casino == "888 Casino" && d.Text == saved!.Offers[0].RawTerms),
+            Arg.Is<BonusTermsDocument>(d => d.Casino == "888 Casino" && d.Text == saved!.Offers[0].Text.Full),
             Arg.Any<CancellationToken>());
     }
 

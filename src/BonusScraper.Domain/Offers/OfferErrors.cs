@@ -29,7 +29,7 @@ public static class OfferErrors
         Error.Validation("Offer.FreeSpinsNegative", "Free spins cannot be negative.");
 
     public static readonly Error RawTermsMissing =
-        Error.Validation("Offer.RawTermsMissing", "The raw terms the offer was extracted from must be kept.");
+        Error.Validation("Offer.RawTermsMissing", "An offer must keep the text it was extracted from.");
 
     public static Error WageringImplausible(decimal multiplier) =>
         Error.Validation(

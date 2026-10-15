@@ -1,17 +1,19 @@
 using System.Globalization;
+using BonusScraper.Domain.Offers;
 
 namespace BonusScraper.Domain.Verification;
 
 /// <summary>
 /// Compares what the language model extracted against what <see cref="TermsReader"/>
-/// can read deterministically. The rule is the provisional-until-confirmed rule:
-/// a model value only counts as confirmed when the raw text independently states it.
+/// can read deterministically from the authoritative text. The rule is the
+/// provisional-until-confirmed rule: a model value only counts as confirmed when that
+/// text independently states it.
 /// </summary>
 public static class TermsCrossCheck
 {
-    public static OfferVerification Check(ExtractedFigures extracted, string rawTerms)
+    public static OfferVerification Check(ExtractedFigures extracted, OfferText text)
     {
-        var figures = TermsReader.Read(rawTerms);
+        var figures = TermsReader.Read(text.Authoritative);
 
         FieldCheck[] checks =
         [
@@ -21,7 +23,7 @@ public static class TermsCrossCheck
             Compare(OfferField.MatchPercent, extracted.MatchPercent.HasValue, extracted.MatchPercent.GetValueOrDefault(), figures.MatchPercents, p => $"{p}%"),
         ];
 
-        return OfferVerification.From(checks);
+        return OfferVerification.From(text.Basis, checks);
     }
 
     private static FieldCheck Compare<T>(OfferField field, bool hasExtracted, T extracted, IReadOnlyList<T> found, Func<T, string> format)

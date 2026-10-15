@@ -44,6 +44,7 @@ internal static class PublishedOffersSerializer
             ToMoney(offer.MinimumDeposit)),
         new PublishedVerification(
             JsonNamingPolicy.CamelCase.ConvertName(offer.Verification.Status.ToString()),
+            JsonNamingPolicy.CamelCase.ConvertName(offer.Verification.Basis.ToString()),
             offer.Verification.Notes.ToList()),
         offer.ExtractedBy,
         offer.ExtractedAt);

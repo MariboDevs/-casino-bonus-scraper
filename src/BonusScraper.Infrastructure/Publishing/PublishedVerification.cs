@@ -1,3 +1,4 @@
 namespace BonusScraper.Infrastructure.Publishing;
 
-internal sealed record PublishedVerification(string Status, IReadOnlyList<string> Notes);
+/// <summary><paramref name="Basis"/> says which text the check read: "operatorTerms" or "reviewArticle".</summary>
+internal sealed record PublishedVerification(string Status, string Basis, IReadOnlyList<string> Notes);

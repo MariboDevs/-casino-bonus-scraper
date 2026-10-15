@@ -48,7 +48,7 @@ Exit codes are meant for schedulers: `0` all casinos scraped, `3` some failed bu
 published, `1` nothing published (the previous file is left untouched), `2` bad configuration.
 
 ```bash
-dotnet test BonusScraper.slnx    # 114 unit tests; the 4 integration tests need Docker
+dotnet test BonusScraper.slnx    # 121 unit tests incl. the golden master; the 4 integration tests need Docker
 ```
 
 ## How it works
@@ -78,10 +78,16 @@ review page ──robots.txt check──► polite fetch ──► parse offer b
   Claude (structured outputs with server-side refusal fallback). The page text is passed as
   untrusted data and the model is told to answer `null` rather than guess.
 - **The model is not trusted on its own.** [`TermsReader`](src/BonusScraper.Domain/Verification/TermsReader.cs)
-  re-reads the same text with conservative regular expressions. Every figure the model returns
-  must appear in the source, or the offer is published as *Needs review* with the reason
-  (for example "extracted 10 EUR but the terms say 100 EUR"). Raw terms are stored with every
-  offer.
+  re-reads the text with conservative regular expressions. Every figure the model returns must
+  appear in the source, or the offer is published as *Needs review* with the reason. The check
+  reads the operator's terms box when the page has one, because review prose goes stale (the
+  Grosvenor review still describes last year's offer), and falls back to the article only when
+  it must; the page then says "Checked against review text". The full text is stored with
+  every offer.
+- **Golden master:** [`GoldenMasterTests`](tests/BonusScraper.Infrastructure.UnitTests/GoldenMaster/GoldenMasterTests.cs)
+  replays the answers gpt-5.5 actually gave on the first live run through frozen copies of the
+  three pages and the real parser, check and publisher, and compares the result with the
+  published JSON.
 - **Politeness** ([`Crawling/`](src/BonusScraper.Infrastructure/Crawling)): an RFC 9309
   robots.txt parser (longest match, wildcards, `$`, crawl-delay), at least 2 seconds between
   requests to one host, an identifying User-Agent, retries only for transient faults. A 403,

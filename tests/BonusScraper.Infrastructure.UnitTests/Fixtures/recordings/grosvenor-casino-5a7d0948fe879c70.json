@@ -1,0 +1,15 @@
+{
+  "key": "5a7d0948fe879c70",
+  "casino": "Grosvenor Casino",
+  "promptVersion": "2026-10-14.1",
+  "terms": {
+    "welcomeBonusSummary": "30 GBP bonus",
+    "matchPercent": null,
+    "maxBonusAmount": 30,
+    "freeSpins": null,
+    "wageringMultiplier": 30,
+    "minimumDepositAmount": 20,
+    "currency": "GBP",
+    "model": "azure-openai:gpt-5.5-2026-04-24"
+  }
+}

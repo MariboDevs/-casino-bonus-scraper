@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T04:06:46.63456+00:00",
-  "runId": "01a13dbd-8c0c-70b7-9e54-2dd67e5d51e9",
+  "generatedAt": "2026-10-15T04:28:35.5356918+00:00",
+  "runId": "01a13dd1-9eca-75f8-a92e-a2d070924283",
   "source": "casinoguide.co.uk",
   "outcome": "succeeded",
   "casinos": [
@@ -25,10 +25,11 @@
       },
       "verification": {
         "status": "confirmed",
+        "basis": "operatorTerms",
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-10-15T04:06:37.3876673+00:00"
+      "extractedAt": "2026-10-15T04:28:32.3047143+00:00"
     },
     {
       "casino": "Casumo",
@@ -50,10 +51,11 @@
       },
       "verification": {
         "status": "confirmed",
+        "basis": "reviewArticle",
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-10-15T04:06:40.5126619+00:00"
+      "extractedAt": "2026-10-15T04:28:33.5225506+00:00"
     },
     {
       "casino": "Grosvenor Casino",
@@ -74,13 +76,12 @@
         }
       },
       "verification": {
-        "status": "provisional",
-        "notes": [
-          "MatchPercent: extracted nothing but the terms say 100%."
-        ]
+        "status": "confirmed",
+        "basis": "operatorTerms",
+        "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-10-15T04:06:45.0614881+00:00"
+      "extractedAt": "2026-10-15T04:28:35.5325127+00:00"
     }
   ],
   "failures": []

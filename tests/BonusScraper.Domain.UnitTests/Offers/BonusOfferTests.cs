@@ -14,7 +14,7 @@ public sealed class BonusOfferTests
         var offer = Create(wagering: 40, rawTerms: "Min £10 deposit. 100% bonus up to £200. 40x wagering.").Value;
 
         offer.Verification.Status.ShouldBe(VerificationStatus.Confirmed);
-        offer.RawTerms.ShouldContain("40x wagering");
+        offer.Text.Full.ShouldContain("40x wagering");
     }
 
     [Fact]
@@ -22,13 +22,7 @@ public sealed class BonusOfferTests
         Create(wagering: 35, rawTerms: "Min £10 deposit. 100% bonus up to £200. 40x wagering.")
             .Value.Verification.Status.ShouldBe(VerificationStatus.Provisional);
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData(" ")]
-    public void Refuses_to_exist_without_its_raw_terms(string? rawTerms) =>
-        Create(wagering: 40, rawTerms: rawTerms).FirstError.ShouldBe(OfferErrors.RawTermsMissing);
-
-    private static ErrorOr.ErrorOr<BonusOffer> Create(decimal wagering, string? rawTerms)
+    private static ErrorOr.ErrorOr<BonusOffer> Create(decimal wagering, string rawTerms)
     {
         var gbp200 = Money.Create(200, "GBP").Value;
         return BonusOffer.Create(
@@ -37,7 +31,7 @@ public sealed class BonusOfferTests
             WageringRequirement.Create(wagering).Value,
             Money.Create(10, "GBP").Value,
             SourceUrl.Create(new Uri("https://example.com/888")).Value,
-            rawTerms,
+            OfferText.Create(rawTerms, null).Value,
             "test-model",
             Now);
     }

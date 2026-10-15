@@ -49,7 +49,7 @@ public sealed class SqlScrapeRunRepositoryTests(SqlServerFixture database)
             WageringRequirement.Create(wagering).Value,
             Money.Create(10, "GBP").Value,
             SourceUrl.Create(new Uri("https://www.casinoguide.co.uk/888-casino-review")).Value,
-            "Min £10 deposit. 100% bonus up to £200. 40x wagering.",
+            OfferText.Create("Min £10 deposit. 100% bonus up to £200. 40x wagering.", null).Value,
             "test-model",
             at).Value);
         run.Record(new ScrapeFailure("Casumo", new Uri("https://www.casinoguide.co.uk/casumo-casino-review"), "Source.Blocked", "Refused."));

@@ -15,4 +15,5 @@ export class VerificationBadge {
   readonly verification = input.required<PublishedVerification>();
 
   protected readonly confirmed = computed(() => this.verification().status === 'confirmed');
+  protected readonly articleOnly = computed(() => this.verification().basis === 'reviewArticle');
 }

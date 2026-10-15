@@ -1,9 +1,17 @@
-@if (confirmed()) {
-  <span class="badge badge--confirmed" title="Every figure was found in the source text"
+@if (confirmed() && !articleOnly()) {
+  <span class="badge badge--confirmed" title="Every figure was found in the operator's own terms"
     >Checked</span
   >
+} @else if (confirmed()) {
+  <details class="disclosure">
+    <summary class="badge badge--article">Checked against review text</summary>
+    <p class="notes">
+      The source page has no operator terms for this casino, so the figures were checked against the
+      review's own article, which can be out of date. Confirm on the casino's site.
+    </p>
+  </details>
 } @else {
-  <details class="provisional">
+  <details class="disclosure">
     <summary class="badge badge--provisional">Needs review</summary>
     <ul class="notes">
       @for (note of verification().notes; track note) {

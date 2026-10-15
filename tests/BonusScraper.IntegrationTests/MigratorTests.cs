@@ -16,6 +16,9 @@ public sealed class MigratorTests(SqlServerFixture database)
             "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'scrape' ORDER BY TABLE_NAME");
 
         tables.ShouldBe(["BonusOffer", "Casino", "LatestBonusOffer", "ScrapeFailure", "ScrapeRun"]);
+        (await connection.ExecuteScalarAsync<int>(
+            "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'scrape' AND TABLE_NAME = 'BonusOffer' AND COLUMN_NAME = 'VerificationBasis'"))
+            .ShouldBe(1);
     }
 
     [Fact]
