@@ -57,7 +57,7 @@ Exit codes are meant for schedulers: `0` all casinos scraped, `3` some failed bu
 published, `1` nothing published (the previous file is left untouched), `2` bad configuration.
 
 ```bash
-dotnet test BonusScraper.slnx    # 133 unit tests incl. the golden master; the 4 integration tests need Docker
+dotnet test BonusScraper.slnx    # 136 unit tests incl. the golden master; the 4 integration tests need Docker
 ```
 
 ## Production plan
@@ -81,13 +81,10 @@ shows the order.
 
 ## What is missing
 
-- The production job's container image is not built or pushed yet; the Bicep expects one.
-- The Bicep in `infra/` is written but has never been deployed. The live page runs on GitHub
-  Pages and GitHub Actions instead, which is free and enough for three casinos.
-- Three casinos from one source. For 200, more review sources (or operators' own pages) are
-  needed, since one site will not cover them all.
-- No change detection: every page is sent to the model every day. Hashing each page's bonus
-  text and skipping unchanged ones would cut the model cost.
+- The Azure setup in [`infra/`](infra) is written but not deployed, on purpose: the free
+  GitHub setup (Actions for the daily run, Pages for the site) is enough for three casinos.
+  Deploying it means pointing the job at the image CI already publishes, and keeping the
+  recorded model answers in Blob storage instead of the repository.
 
 ## Design notes
 
@@ -135,6 +132,12 @@ review page ──robots.txt check──► polite fetch ──► parse offer b
 - **Record and replay:** live answers are saved to `recordings/`, keyed by a hash of the prompt
   version and the exact input, so tests and keyless runs replay real model output and a changed
   page never replays a stale answer.
+- **Change detection:** the same key means a live run asks the model only about pages that
+  changed. An unchanged page reuses its recorded answer at no cost, and the cross-check still
+  runs on it ([`UnchangedPageBonusTermsExtractor`](src/BonusScraper.Infrastructure/Extraction/UnchangedPageBonusTermsExtractor.cs)).
+- **Container image:** the [`Dockerfile`](Dockerfile) builds the scraper for the production job;
+  CI builds and smoke-tests it on every push and publishes it to GitHub's container registry
+  from `main`.
 
 Layout follows clean architecture: `Domain` (value objects, the offer aggregate, the
 cross-check), `Application` (Mediator command and handler, `ErrorOr` results, validation and

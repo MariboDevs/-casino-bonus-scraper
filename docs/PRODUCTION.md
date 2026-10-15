@@ -5,8 +5,10 @@
 batch does not need a server that idles 23 hours a day: the job exists only while it runs, gets
 one automatic retry and a hard one-hour timeout, and logs straight to Log Analytics. 200 casinos
 at a polite 2 seconds per host is under 7 minutes even single-threaded; spread across several
-review sites it parallelises per host. The image is built in CI and pushed to Azure
-Container Registry; the job pulls it with a managed identity.
+review sites it parallelises per host. Only changed pages go to the model: each answer is
+stored under a hash of the page text, and an unchanged page reuses it. CI already builds the
+image on every push; in production it goes to Azure Container Registry and the job pulls it
+with a managed identity.
 
 **Database and backups.** Azure SQL Database, serverless General Purpose with 0.5 to 1 vCore,
 auto-pausing after an hour ([`infra/modules/database.bicep`](../infra/modules/database.bicep)).
@@ -35,7 +37,7 @@ group (email, and a Teams or Slack webhook).
 |---|---|
 | Container Apps Job: about 7 min a day at 0.5 vCPU, inside the free grant | about $0 |
 | Azure SQL serverless, auto-paused most of the day, 2 GB | $5 to $10 |
-| Azure OpenAI: about 200 short extractions a day | $3 to $15 |
+| Azure OpenAI: at most 200 short extractions a day, only for changed pages | $3 to $15 |
 | Container Registry Basic | $5 |
 | Log Analytics, under 1 GB a day capped | $2 to $5 |
 | Blob storage with versioning, Static Web Apps Free, Azure DNS zone, domain | about $2 |

@@ -1,0 +1,10 @@
+**/bin
+**/obj
+.git
+.github
+data
+docs
+frontend
+infra
+recordings
+tests

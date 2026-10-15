@@ -7,6 +7,7 @@ using BonusScraper.Infrastructure.Sources;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http.Resilience;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace BonusScraper.Infrastructure;
@@ -80,8 +81,21 @@ public static class DependencyInjection
                 _ => throw new InvalidOperationException($"Unknown extraction provider {options.Value.Provider}."),
             };
 
-            return options.Value is { RecordTo: { Length: > 0 } directory, Provider: not ExtractionProvider.Replay }
-                ? new RecordingBonusTermsExtractor(extractor, directory)
+            if (options.Value.Provider is ExtractionProvider.Replay)
+            {
+                return extractor;
+            }
+
+            if (options.Value.RecordTo is { Length: > 0 } directory)
+            {
+                extractor = new RecordingBonusTermsExtractor(extractor, directory);
+            }
+
+            return options.Value.ReuseUnchangedPages
+                ? new UnchangedPageBonusTermsExtractor(
+                    new ReplayBonusTermsExtractor(options),
+                    extractor,
+                    provider.GetRequiredService<ILogger<UnchangedPageBonusTermsExtractor>>())
                 : extractor;
         });
 

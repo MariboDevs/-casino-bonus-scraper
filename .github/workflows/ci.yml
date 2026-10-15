@@ -71,3 +71,35 @@ jobs:
       - run: npm run format:check
       - name: Build
         run: npx ng build --base-href ./
+
+  image:
+    name: Container image
+    needs: backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: write
+    env:
+      # Image names must start with a letter or digit, so the repository's leading dash is dropped.
+      IMAGE: ghcr.io/maribodevs/casino-bonus-scraper
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build
+        run: >
+          docker build
+          --label "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}"
+          --label "org.opencontainers.image.revision=${{ github.sha }}"
+          -t "$IMAGE:${{ github.sha }}" .
+
+      - name: Smoke test
+        run: docker run --rm "$IMAGE:${{ github.sha }}" --help
+
+      - name: Push (main only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker tag "$IMAGE:${{ github.sha }}" "$IMAGE:latest"
+          docker push "$IMAGE:${{ github.sha }}"
+          docker push "$IMAGE:latest"
