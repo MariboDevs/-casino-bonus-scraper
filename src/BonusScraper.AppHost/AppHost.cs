@@ -3,7 +3,9 @@
 // the JSON file, and the Angular page served from that JSON.
 var builder = DistributedApplication.CreateBuilder(args);
 
-var sql = builder.AddSqlServer("sql").WithDataVolume();
+// No data volume: a volume keeps the first run's generated sa password, so a later run with a
+// fresh password can never log in. Locally the database is a throwaway; history lives in Azure SQL.
+var sql = builder.AddSqlServer("sql");
 var database = sql.AddDatabase("bonusdb");
 var seq = builder.AddSeq("seq");
 

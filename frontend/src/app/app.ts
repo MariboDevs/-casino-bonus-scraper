@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OfferTable } from './offer-table/offer-table';
+import { failureReason } from './offers/failure-reason';
 import { OffersStore } from './offers/offers-store';
 
 @Component({
@@ -12,4 +13,5 @@ import { OffersStore } from './offers/offers-store';
 })
 export class App {
   protected readonly store = inject(OffersStore);
+  protected readonly failureReason = failureReason;
 }

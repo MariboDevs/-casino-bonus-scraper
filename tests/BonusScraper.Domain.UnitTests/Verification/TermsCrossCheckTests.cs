@@ -26,7 +26,7 @@ public sealed class TermsCrossCheckTests
         result.Status.ShouldBe(VerificationStatus.Provisional);
         var wagering = result.Checks.Single(c => c.Field == OfferField.WageringMultiplier);
         wagering.Outcome.ShouldBe(FieldCheckOutcome.Contradicted);
-        wagering.Describe().ShouldBe("WageringMultiplier: extracted 35x but the terms say 40x.");
+        wagering.Describe().ShouldBe("Wagering: the model read 35x, but the terms say 40x.");
     }
 
     [Fact]
@@ -35,7 +35,9 @@ public sealed class TermsCrossCheckTests
         var result = TermsCrossCheck.Check(new ExtractedFigures(40, Gbp(10), Gbp(200), 100), Operator("40x wagering. 100% bonus up to £200."));
 
         result.Status.ShouldBe(VerificationStatus.Provisional);
-        result.Checks.Single(c => c.Field == OfferField.MinimumDeposit).Outcome.ShouldBe(FieldCheckOutcome.Unverifiable);
+        var deposit = result.Checks.Single(c => c.Field == OfferField.MinimumDeposit);
+        deposit.Outcome.ShouldBe(FieldCheckOutcome.Unverifiable);
+        deposit.Describe().ShouldBe("Minimum deposit: the model read 10 GBP, which the terms do not state.");
     }
 
     [Fact]
@@ -47,6 +49,7 @@ public sealed class TermsCrossCheckTests
         var wagering = result.Checks.Single(c => c.Field == OfferField.WageringMultiplier);
         wagering.Outcome.ShouldBe(FieldCheckOutcome.Contradicted);
         wagering.Extracted.ShouldBe("nothing");
+        wagering.Describe().ShouldBe("Wagering: the terms say 40x, but the model did not report one.");
     }
 
     [Fact]

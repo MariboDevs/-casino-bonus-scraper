@@ -6,7 +6,7 @@
     "ng": "ng",
     "copy-data": "node scripts/copy-data.mjs",
     "prestart": "npm run copy-data",
-    "start": "ng serve",
+    "start": "node scripts/serve.mjs",
     "prebuild": "npm run copy-data",
     "build": "ng build",
     "format": "prettier --write \"src/**/*.{ts,html,scss,json}\" \"scripts/**/*.mjs\"",

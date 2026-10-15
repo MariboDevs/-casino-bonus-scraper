@@ -4,6 +4,7 @@ using BonusScraper.Application.Behaviours;
 using BonusScraper.Application.Scraping;
 using BonusScraper.Cli;
 using BonusScraper.Infrastructure;
+using BonusScraper.Infrastructure.Extraction;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +26,14 @@ var scrape = new Command("scrape", "Scrape every configured casino, extract its 
 
 scrape.SetAction(async (parse, cancellationToken) =>
 {
+    var providerName = parse.GetValue(provider);
+    if (providerName is not null && !Enum.TryParse<ExtractionProvider>(providerName, ignoreCase: true, out _))
+    {
+        Log.Fatal("Unknown --provider {Provider}. Use one of: {Providers}", providerName, string.Join(", ", Enum.GetNames<ExtractionProvider>()));
+        await Log.CloseAndFlushAsync();
+        return ExitCodes.InvalidConfiguration;
+    }
+
     var overrides = new Dictionary<string, string?>
     {
         ["Extraction:Provider"] = parse.GetValue(provider),

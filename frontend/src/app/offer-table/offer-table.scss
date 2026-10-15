@@ -41,6 +41,8 @@ tbody tr:last-child > * {
 }
 
 .bonus {
+  /* Keeps a short offer on one line when a review note opens in the Check column. */
+  min-width: 12rem;
   font-weight: 500;
 }
 
@@ -50,6 +52,10 @@ tbody tr:last-child > * {
 }
 
 a {
+  /* A standalone link, not one inside a sentence: give it a 24 px tap target (WCAG 2.5.8). */
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
   color: var(--accent);
   text-underline-offset: 2px;
 }
@@ -113,11 +119,16 @@ a {
 
   td::before {
     content: attr(data-label);
+    font-weight: 400;
     color: var(--text-muted);
     font-size: 0.8125rem;
   }
 
   .numeric {
     white-space: normal;
+  }
+
+  .bonus {
+    min-width: 0;
   }
 }

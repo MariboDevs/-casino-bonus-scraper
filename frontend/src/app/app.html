@@ -36,9 +36,9 @@
         <h2 id="failures-heading">Not updated on the last run</h2>
         <ul>
           @for (failure of published.failures; track failure.casino) {
-            <li>
+            <li [title]="failure.code">
               <strong>{{ failure.casino }}</strong
-              >: <code>{{ failure.code }}</code>
+              >: {{ failureReason(failure.code) }}
             </li>
           }
         </ul>
