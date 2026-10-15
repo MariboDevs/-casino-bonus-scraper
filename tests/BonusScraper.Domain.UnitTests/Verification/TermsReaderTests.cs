@@ -61,6 +61,29 @@ public sealed class TermsReaderTests
     public void Does_not_read_a_return_to_player_percentage_as_a_match() =>
         TermsReader.Read("High RTP - 97.2% across slots").MatchPercents.ShouldBeEmpty();
 
+    // Phrasings taken verbatim from operator terms on casinoguide.co.uk, 2026-10-15.
+    [Theory]
+    [InlineData("Wagering Requirement: 30x. Promotion available for 72 hours.", 30)]
+    [InlineData("GambleAware.org New players only. Min. dep. £10. Wager req. 10x. 18+", 10)]
+    [InlineData("The match-up bonus that requires a deposit must be wagered 40x.", 40)]
+    [InlineData("100% Match Bonus up to £100 on 1st deposit of £20+. 50x bonus wagering applies.", 50)]
+    [InlineData("Deposit and get 100% bonus up to £50; Wager bonus 10x; Withdrawals void bonus", 10)]
+    public void Reads_wagering_in_other_operator_phrasings(string terms, int multiplier) =>
+        TermsReader.Read(terms).WageringMultipliers.ShouldBe([multiplier]);
+
+    [Theory]
+    [InlineData("UK First Depositing Players Only. First Deposit of £10 or more to qualify.", 10)]
+    [InlineData("GambleAware.org New players only. Min. dep. £10. Wager req. 10x.", 10)]
+    [InlineData("100% Match Bonus up to £100 on 1st deposit of £20+.", 20)]
+    [InlineData("18+. New depositing players only. Min. deposit: £20. Max. bonus: £100.", 20)]
+    [InlineData("To trigger the bonus, you have to deposit at least £15.", 15)]
+    public void Reads_minimum_deposits_in_other_operator_phrasings(string terms, int pounds) =>
+        TermsReader.Read(terms).MinimumDeposits.ShouldBe([Gbp(pounds)]);
+
+    [Fact]
+    public void Does_not_read_a_plain_deposit_amount_as_a_minimum() =>
+        TermsReader.Read("Deposit used 1st; a deposit of £50 doubles to £100.").MinimumDeposits.ShouldBeEmpty();
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]

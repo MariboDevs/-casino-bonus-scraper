@@ -50,6 +50,18 @@ public sealed class ReviewPageParserTests
     }
 
     [Fact]
+    public void Reads_operator_terms_that_state_every_figure()
+    {
+        var page = ReviewPageParser.Parse(Fixture.Page("magic-red"));
+
+        page.Headline.ShouldBe("100% up to £100");
+        page.Terms.ShouldNotBeNull();
+        page.Terms.ShouldContain("First Deposit of £10 or more");
+        page.Terms.ShouldContain("Wagering Requirement: 30x");
+        page.Body.ShouldBeNull();
+    }
+
+    [Fact]
     public void Returns_an_empty_page_for_markup_without_any_offer() =>
         ReviewPageParser.Parse("<html><body><p>Nothing here</p></body></html>").IsEmpty.ShouldBeTrue();
 

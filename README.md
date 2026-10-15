@@ -8,7 +8,7 @@ against the source text, and publishes the result as JSON and as a mobile-friend
 - **Data:** [`data/casinos.json`](data/casinos.json), refreshed daily by
   [a GitHub Actions workflow](.github/workflows/scrape-and-publish.yml)
 - **Source:** [casinoguide.co.uk](https://www.casinoguide.co.uk/robots.txt) review pages for
-  888 Casino, Casumo and Grosvenor Casino. Its robots.txt allows them. AskGamblers was tried
+  888 Casino, Magic Red Casino and Grosvenor Casino. Its robots.txt allows them. AskGamblers was tried
   first and answered 403, so it was dropped rather than worked around.
 
 | Field | Example in `casinos.json` |
@@ -48,7 +48,7 @@ Exit codes are meant for schedulers: `0` all casinos scraped, `3` some failed bu
 published, `1` nothing published (the previous file is left untouched), `2` bad configuration.
 
 ```bash
-dotnet test BonusScraper.slnx    # 121 unit tests incl. the golden master; the 4 integration tests need Docker
+dotnet test BonusScraper.slnx    # 133 unit tests incl. the golden master; the 4 integration tests need Docker
 ```
 
 ## How it works

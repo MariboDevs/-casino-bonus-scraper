@@ -14,14 +14,16 @@
 
 TODO: fill in honestly (the brief caps the task at 3 hours).
 
-## Known data caveat
+## Why Magic Red and not Casumo
 
-Casumo's review on casinoguide.co.uk has no operator terms box, so its figures come from the
-article, which is out of date: it says a 100 EUR minimum deposit and 20 free spins, while
-Casumo's own promotions page (checked 2026-10-15) says "Min. deposit €20" and 50 bonus spins.
-The scraper reports the source faithfully and the page labels the row "Checked against review
-text" so a reader knows the weaker basis. Switching the third casino to one with an operator
-terms box (10bet, for example) would remove the caveat.
+The first live run scraped Casumo. Its review has no operator terms box, so its figures came
+from the review article, which turned out to be out of date: it said a 100 EUR minimum deposit
+and 20 free spins, while Casumo's own promotions page (checked 2026-10-15) said "Min. deposit
+€20" and 50 bonus spins. The scraper reported the source faithfully and labelled the row
+"Checked against review text", but a correct number beats a well-labelled wrong one, so the
+third casino is now Magic Red, whose operator terms state every field. 10bet was considered
+and rejected for the same reason: its terms box omits the minimum deposit and its article is
+stale. That first run stays pinned in the golden-master test.
 
 ## What is missing
 

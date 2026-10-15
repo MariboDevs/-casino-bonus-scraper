@@ -124,14 +124,21 @@ public static partial class TermsReader
         @"\b(\d{1,3}(?:\.\d+)?)\s?x\s+(?:the\s+)?(?:wagering|wager|playthrough|rollover)" +
         @"|\bx\s?(\d{1,3})\s+(?:wagering|wager|playthrough)" +
         @"|\bwagering(?:\s+requirements?)?(?:\s+(?:of|is))?\s*'?\s*(\d{1,3})\s?x\b" +
-        @"|\b(?:wager|bet|play)\b[^.]{0,80}?\b(\d{1,3})\s+times\b",
+        @"|\b(?:wager|bet|play)\b[^.]{0,80}?\b(\d{1,3})\s+times\b" +
+        @"|\bwager(?:ing)?\s+req(?:uirements?|\.)?\s*:?\s*(?:of\s+)?(\d{1,3})\s?x\b" +
+        @"|\b(\d{1,3})\s?x\s+(?:[a-z]+\s+){1,2}?wager(?:ing)?\b" +
+        @"|\bwagered\s+(\d{1,3})\s?x\b" +
+        @"|\bwager\s+(?:the\s+)?bonus\s+(\d{1,3})\s?x\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex WageringRegex();
 
     [GeneratedRegex(
         @"\bmin(?:imum|\.)?\s+(?:[a-z]+\s+){0,3}?deposit(?:\s+(?:is|of|amount))?\s*:?\s*" + MoneyPattern +
         @"|\bmin(?:imum|\.)?\s+(?:deposit\s+)?" + MoneyPattern + @"(?:\s+\w+)?\s+deposit" +
-        @"|\bdeposit\s+" + MoneyPattern + @"\s+(?:and\s+)?get\b",
+        @"|\bdeposit\s+" + MoneyPattern + @"\s+(?:and\s+)?get\b" +
+        @"|\bmin\.?\s+dep\.?\s+" + MoneyPattern +
+        @"|\bdeposit\s+(?:of\s+)?" + MoneyPattern + @"\s*(?:\+|or\s+more\b)" +
+        @"|\bdeposit\s+(?:of\s+)?at\s+least\s+" + MoneyPattern,
         RegexOptions.IgnoreCase)]
     private static partial Regex MinimumDepositRegex();
 
