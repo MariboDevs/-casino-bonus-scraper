@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T07:52:16.5148484+00:00",
-  "runId": "01a13e8b-f6ad-7a34-b572-a646f19f3ab8",
+  "generatedAt": "2026-10-15T08:03:25.0809236+00:00",
+  "runId": "01a13e96-3b2b-78d6-a543-1b78cd9225ef",
   "source": "casinoguide.co.uk",
   "outcome": "succeeded",
   "casinos": [
@@ -29,7 +29,7 @@
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-10-15T07:52:05.9638479+00:00"
+      "extractedAt": "2026-10-15T08:03:17.8542354+00:00"
     },
     {
       "casino": "Grosvenor Casino",
@@ -55,7 +55,7 @@
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-10-15T07:52:13.9576887+00:00"
+      "extractedAt": "2026-10-15T08:03:23.0625085+00:00"
     },
     {
       "casino": "Magic Red Casino",
@@ -81,7 +81,7 @@
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-10-15T07:52:09.8622149+00:00"
+      "extractedAt": "2026-10-15T08:03:20.7185089+00:00"
     }
   ],
   "failures": []
