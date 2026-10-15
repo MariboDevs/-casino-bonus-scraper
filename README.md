@@ -11,6 +11,10 @@ against the source text, and publishes the result as JSON and as a mobile-friend
   888 Casino, Magic Red Casino and Grosvenor Casino. Its robots.txt allows them. AskGamblers was tried
   first and answered 403, so it was dropped rather than worked around.
 
+| Desktop | Phone |
+|---|---|
+| ![The table on a desktop browser](docs/screenshots/desktop.png) | ![The same data as cards on a phone](docs/screenshots/phone.png) |
+
 | Field | Example in `casinos.json` |
 |---|---|
 | Welcome bonus | `"welcomeBonus": "100% up to 200 GBP"` |

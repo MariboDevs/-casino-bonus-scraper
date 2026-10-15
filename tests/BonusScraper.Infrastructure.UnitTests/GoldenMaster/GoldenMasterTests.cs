@@ -26,7 +26,7 @@ public sealed class GoldenMasterTests : IDisposable
     private static readonly CasinoTarget[] Targets =
     [
         new("888 Casino", new Uri($"{Origin}/888-casino-review")),
-        new("Casumo", new Uri($"{Origin}/casumo-casino-review")),
+        new("Magic Red Casino", new Uri($"{Origin}/magic-red-casino-review")),
         new("Grosvenor Casino", new Uri($"{Origin}/grosvenor-casino-review")),
     ];
 
@@ -55,7 +55,7 @@ public sealed class GoldenMasterTests : IDisposable
         var http = new StubHttp()
             .Respond($"{Origin}/robots.txt", HttpStatusCode.OK, Fixture.Read("casinoguide-robots.txt"))
             .Respond($"{Origin}/888-casino-review", HttpStatusCode.OK, Fixture.Page("888"))
-            .Respond($"{Origin}/casumo-casino-review", HttpStatusCode.OK, Fixture.Page("casumo"))
+            .Respond($"{Origin}/magic-red-casino-review", HttpStatusCode.OK, Fixture.Page("magic-red"))
             .Respond($"{Origin}/grosvenor-casino-review", HttpStatusCode.OK, Fixture.Page("grosvenor"));
         var crawler = Options.Create(new CrawlerOptions());
         var clock = new FakeTimeProvider(new DateTimeOffset(2026, 10, 15, 5, 17, 0, TimeSpan.Zero));

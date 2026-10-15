@@ -1,0 +1,15 @@
+{
+  "key": "fbf332802dbcb5c6",
+  "casino": "Magic Red Casino",
+  "promptVersion": "2026-10-14.1",
+  "terms": {
+    "welcomeBonusSummary": "100% up to 100 GBP",
+    "matchPercent": 100,
+    "maxBonusAmount": 100,
+    "freeSpins": null,
+    "wageringMultiplier": 30,
+    "minimumDepositAmount": 10,
+    "currency": "GBP",
+    "model": "azure-openai:gpt-5.5-2026-04-24"
+  }
+}

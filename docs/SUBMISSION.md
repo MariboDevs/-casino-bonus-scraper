@@ -23,7 +23,7 @@ and 20 free spins, while Casumo's own promotions page (checked 2026-10-15) said 
 "Checked against review text", but a correct number beats a well-labelled wrong one, so the
 third casino is now Magic Red, whose operator terms state every field. 10bet was considered
 and rejected for the same reason: its terms box omits the minimum deposit and its article is
-stale. That first run stays pinned in the golden-master test.
+stale. Casumo's page stays in the tests as the case where only the article is available.
 
 ## What is missing
 
