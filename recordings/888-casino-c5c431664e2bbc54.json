@@ -1,0 +1,15 @@
+{
+  "key": "c5c431664e2bbc54",
+  "casino": "888 Casino",
+  "promptVersion": "2026-10-14.1",
+  "terms": {
+    "welcomeBonusSummary": "100% up to 200 GBP",
+    "matchPercent": 100,
+    "maxBonusAmount": 200,
+    "freeSpins": null,
+    "wageringMultiplier": 40,
+    "minimumDepositAmount": 10,
+    "currency": "GBP",
+    "model": "azure-openai:gpt-5.5-2026-04-24"
+  }
+}

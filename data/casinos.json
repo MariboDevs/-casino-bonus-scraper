@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-15T04:06:46.63456+00:00",
+  "runId": "01a13dbd-8c0c-70b7-9e54-2dd67e5d51e9",
+  "source": "casinoguide.co.uk",
+  "outcome": "succeeded",
+  "casinos": [
+    {
+      "casino": "888 Casino",
+      "welcomeBonus": "100% up to 200 GBP",
+      "wageringRequirement": 40,
+      "minimumDeposit": "10 GBP",
+      "sourceUrl": "https://www.casinoguide.co.uk/888-casino-review",
+      "details": {
+        "matchPercent": 100,
+        "maxBonus": {
+          "amount": 200,
+          "currency": "GBP"
+        },
+        "freeSpins": null,
+        "minimumDeposit": {
+          "amount": 10,
+          "currency": "GBP"
+        }
+      },
+      "verification": {
+        "status": "confirmed",
+        "notes": []
+      },
+      "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
+      "extractedAt": "2026-10-15T04:06:37.3876673+00:00"
+    },
+    {
+      "casino": "Casumo",
+      "welcomeBonus": "100% up to 300 EUR + 20 free spins",
+      "wageringRequirement": 30,
+      "minimumDeposit": "100 EUR",
+      "sourceUrl": "https://www.casinoguide.co.uk/casumo-casino-review",
+      "details": {
+        "matchPercent": 100,
+        "maxBonus": {
+          "amount": 300,
+          "currency": "EUR"
+        },
+        "freeSpins": 20,
+        "minimumDeposit": {
+          "amount": 100,
+          "currency": "EUR"
+        }
+      },
+      "verification": {
+        "status": "confirmed",
+        "notes": []
+      },
+      "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
+      "extractedAt": "2026-10-15T04:06:40.5126619+00:00"
+    },
+    {
+      "casino": "Grosvenor Casino",
+      "welcomeBonus": "30 GBP bonus",
+      "wageringRequirement": 30,
+      "minimumDeposit": "20 GBP",
+      "sourceUrl": "https://www.casinoguide.co.uk/grosvenor-casino-review",
+      "details": {
+        "matchPercent": null,
+        "maxBonus": {
+          "amount": 30,
+          "currency": "GBP"
+        },
+        "freeSpins": null,
+        "minimumDeposit": {
+          "amount": 20,
+          "currency": "GBP"
+        }
+      },
+      "verification": {
+        "status": "provisional",
+        "notes": [
+          "MatchPercent: extracted nothing but the terms say 100%."
+        ]
+      },
+      "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
+      "extractedAt": "2026-10-15T04:06:45.0614881+00:00"
+    }
+  ],
+  "failures": []
+}
