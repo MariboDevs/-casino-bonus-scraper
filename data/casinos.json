@@ -1,36 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-20T05:21:06.1928966+00:00",
-  "runId": "01a1f766-a012-74a1-bf7e-588536fc1185",
+  "generatedAt": "2026-11-21T05:20:31.8004696+00:00",
+  "runId": "01a1fc8c-630f-7ab6-93af-1574dd1b24ae",
   "source": "casinoguide.co.uk",
-  "outcome": "succeeded",
+  "outcome": "partiallySucceeded",
   "casinos": [
     {
       "casino": "888 Casino",
-      "welcomeBonus": "100% up to 200 GBP",
-      "wageringRequirement": 40,
-      "minimumDeposit": "10 GBP",
+      "welcomeBonus": "Not stated",
+      "wageringRequirement": null,
+      "minimumDeposit": null,
       "sourceUrl": "https://www.casinoguide.co.uk/888-casino-review",
       "details": {
-        "matchPercent": 100,
-        "maxBonus": {
-          "amount": 200,
-          "currency": "GBP"
-        },
+        "matchPercent": null,
+        "maxBonus": null,
         "freeSpins": null,
-        "minimumDeposit": {
-          "amount": 10,
-          "currency": "GBP"
-        }
+        "minimumDeposit": null
       },
       "verification": {
         "status": "confirmed",
-        "basis": "operatorTerms",
+        "basis": "reviewArticle",
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-11-20T05:21:02.6444333+00:00",
-      "answerReused": true
+      "extractedAt": "2026-11-21T05:20:24.1294428+00:00",
+      "answerReused": false
     },
     {
       "casino": "Grosvenor Casino",
@@ -56,36 +50,15 @@
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-11-20T05:21:06.1911917+00:00",
-      "answerReused": true
-    },
-    {
-      "casino": "Magic Red Casino",
-      "welcomeBonus": "100% up to 100 GBP",
-      "wageringRequirement": 30,
-      "minimumDeposit": "10 GBP",
-      "sourceUrl": "https://www.casinoguide.co.uk/magic-red-casino-review",
-      "details": {
-        "matchPercent": 100,
-        "maxBonus": {
-          "amount": 100,
-          "currency": "GBP"
-        },
-        "freeSpins": null,
-        "minimumDeposit": {
-          "amount": 10,
-          "currency": "GBP"
-        }
-      },
-      "verification": {
-        "status": "confirmed",
-        "basis": "operatorTerms",
-        "notes": []
-      },
-      "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-11-20T05:21:04.1763009+00:00",
+      "extractedAt": "2026-11-21T05:20:31.7876574+00:00",
       "answerReused": true
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "casino": "Magic Red Casino",
+      "sourceUrl": "https://www.casinoguide.co.uk/magic-red-casino-review",
+      "code": "Scrape.NoBonusText"
+    }
+  ]
 }

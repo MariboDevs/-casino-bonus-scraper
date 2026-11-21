@@ -1,0 +1,16 @@
+{
+  "key": "ba2f9191afee5089",
+  "casino": "888 Casino",
+  "promptVersion": "2026-10-14.1",
+  "terms": {
+    "welcomeBonusSummary": "Not stated",
+    "matchPercent": null,
+    "maxBonusAmount": null,
+    "freeSpins": null,
+    "wageringMultiplier": null,
+    "minimumDepositAmount": null,
+    "currency": null,
+    "model": "azure-openai:gpt-5.5-2026-04-24",
+    "reused": false
+  }
+}
