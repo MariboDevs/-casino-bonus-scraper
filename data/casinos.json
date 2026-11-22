@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-21T05:20:31.8004696+00:00",
-  "runId": "01a1fc8c-630f-7ab6-93af-1574dd1b24ae",
+  "generatedAt": "2026-11-22T05:20:35.5000121+00:00",
+  "runId": "01a201b2-db7a-76b7-834c-3decb2bf53f2",
   "source": "casinoguide.co.uk",
   "outcome": "partiallySucceeded",
   "casinos": [
@@ -23,8 +23,8 @@
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-11-21T05:20:24.1294428+00:00",
-      "answerReused": false
+      "extractedAt": "2026-11-22T05:20:31.6634462+00:00",
+      "answerReused": true
     },
     {
       "casino": "Grosvenor Casino",
@@ -50,7 +50,7 @@
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-11-21T05:20:31.7876574+00:00",
+      "extractedAt": "2026-11-22T05:20:35.4921244+00:00",
       "answerReused": true
     }
   ],
