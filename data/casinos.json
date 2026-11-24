@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T05:22:27.1826949+00:00",
-  "runId": "01a206da-ebf5-7a1d-9692-bf973ef7e85c",
+  "generatedAt": "2026-11-24T05:21:33.8908751+00:00",
+  "runId": "01a20c00-785b-77a0-84e8-fab8841502d2",
   "source": "casinoguide.co.uk",
   "outcome": "partiallySucceeded",
   "casinos": [
@@ -23,7 +23,7 @@
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-11-23T05:22:23.2770455+00:00",
+      "extractedAt": "2026-11-24T05:21:30.2178524+00:00",
       "answerReused": true
     },
     {
@@ -50,7 +50,7 @@
         "notes": []
       },
       "extractedBy": "azure-openai:gpt-5.5-2026-04-24",
-      "extractedAt": "2026-11-23T05:22:27.1742598+00:00",
+      "extractedAt": "2026-11-24T05:21:33.8814799+00:00",
       "answerReused": true
     }
   ],
